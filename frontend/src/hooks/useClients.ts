@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { User } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabase'
+import { ensureSession } from '@/lib/session'
 import { Cliente, NuevoCliente } from '../types'
 
 export const useClients = (user: User | null) => {
@@ -30,6 +31,7 @@ export const useClients = (user: User | null) => {
       }
 
       // Solo cargar clientes del usuario actual
+      await ensureSession()
       const { data, error } = await supabase
         .from('clientes')
         .select('*')
@@ -62,6 +64,7 @@ export const useClients = (user: User | null) => {
         user_id: user.id
       }
 
+      await ensureSession()
       const { data, error } = await supabase
         .from('clientes')
         .insert([clienteConUser])
@@ -88,6 +91,7 @@ export const useClients = (user: User | null) => {
       }
 
       // Solo eliminar si el cliente pertenece al usuario actual
+      await ensureSession()
       const { error } = await supabase
         .from('clientes')
         .delete()

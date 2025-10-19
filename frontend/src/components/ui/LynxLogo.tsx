@@ -14,10 +14,10 @@ export const LynxLogo: React.FC<LynxLogoProps> = ({
       className={`${className} flex items-center justify-center relative`}
       style={{ width: size, height: size }}
     >
-      {/* Logo siempre blanco */}
+      {/* Logo WorkEz - PNG en /public */}
       <img 
-        src="/lynx-logo-dark.png"
-        alt="LynxTech Logo" 
+        src="/WEicon.png"
+        alt="WorkEz Logo" 
         width={size} 
         height={size}
         className="object-contain transition-all duration-500 ease-in-out"

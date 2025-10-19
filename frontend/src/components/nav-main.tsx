@@ -1,6 +1,6 @@
 "use client"
 
-import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react"
+import { IconMail, type Icon } from "@tabler/icons-react"
 
 import { Button } from '@/components/ui/button'
 import {
@@ -10,6 +10,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
+// QuickCreate temporarily disabled to avoid heavy modal import
+import { Link, useLocation } from 'react-router-dom'
 
 export function NavMain({
   items,
@@ -20,37 +22,63 @@ export function NavMain({
     icon?: Icon
   }[]
 }) {
+  const location = useLocation()
+
+  const isItemActive = (url: string) => {
+    try {
+      // Normalize by reading section from the provided url
+      const [path, query] = url.split("?")
+      const urlSection = new URLSearchParams(query || "").get("section") || ""
+
+      const currentPath = location.pathname
+      const currentSection = new URLSearchParams(location.search || "").get("section") || ""
+
+      // If the item points to a path without section (pure /dashboard)
+      // consider it active when current path matches and no section is selected.
+      if (!urlSection) {
+        return currentPath === path && !currentSection
+      }
+
+      // Otherwise match both path and section
+      return currentPath === path && currentSection === urlSection
+    } catch {
+      return false
+    }
+  }
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              tooltip="Quick Create"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
-            >
-              <IconCirclePlusFilled />
-              <span>Quick Create</span>
-            </SidebarMenuButton>
-            <Button
-              size="icon"
-              className="size-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-            >
+            <Button size="sm" className="h-8 px-3" variant="outline">
+              +
+              <span className="ml-2">Creación rápida</span>
+            </Button>
+            <Button size="icon" className="size-8 group-data-[collapsible=icon]:opacity-0" variant="outline">
               <IconMail />
               <span className="sr-only">Inbox</span>
             </Button>
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {items.map((item) => {
+            const active = isItemActive(item.url)
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  asChild
+                  isActive={active}
+                  className={active ? "bg-primary text-primary-foreground hover:bg-primary/90" : undefined}
+                >
+                  <Link to={item.url}>
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

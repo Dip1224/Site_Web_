@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../contexts/ThemeContext'
+import { AnimatedThemeToggler } from './ui/AnimatedThemeToggler'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useAuth } from '../contexts/AuthContext'
 import { LynxLogo } from './ui/LynxLogo'
@@ -13,7 +14,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
-  const { isDark, toggleTheme } = useTheme()
+  const { isDark } = useTheme()
   const { language, setLanguage } = useLanguage()
   const { user, isAuthenticated, logout } = useAuth()
   const colors = useThemeColors()
@@ -154,7 +155,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                     fontWeight: 'bold'
                   }}
                 >
-                  LynxTech
+                  WorkEz
                 </div>
 
               </div>
@@ -179,7 +180,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                   }`} 
                   style={{
                     transitionDelay: '800ms',
-                    color: activeSection === 'inicio' ? colors.primaryGreen : (isDark ? colors.textPrimary : colors.darkGreen)
+                    color: isDark ? '#ffffff' : colors.textPrimary
                   }}
                 >
                   <AnimatedText translationKey="home" />
@@ -187,7 +188,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                     className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 transition-all duration-300 rounded-full ${
                       activeSection === 'inicio' ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
-                    style={{backgroundColor: colors.primaryGreen}}
+                    style={{backgroundColor: 'currentColor'}}
                   ></div>
                 </a>
                 <a 
@@ -222,7 +223,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                   }`} 
                   style={{
                     transitionDelay: '900ms',
-                    color: activeSection === 'servicios' ? colors.primaryGreen : (isDark ? colors.textPrimary : colors.darkGreen)
+                    color: isDark ? '#ffffff' : colors.textPrimary
                   }}
                 >
                   <AnimatedText translationKey="services" />
@@ -230,7 +231,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                     className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 transition-all duration-300 rounded-full ${
                       activeSection === 'servicios' ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
-                    style={{backgroundColor: colors.primaryGreen}}
+                    style={{backgroundColor: 'currentColor'}}
                   ></div>
                 </a>
                 <a 
@@ -259,7 +260,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                   }`} 
                   style={{
                     transitionDelay: '1000ms',
-                    color: activeSection === 'nosotros' ? colors.primaryGreen : (isDark ? colors.textPrimary : colors.darkGreen)
+                    color: isDark ? '#ffffff' : colors.textPrimary
                   }}
                 >
                   <AnimatedText translationKey="about" />
@@ -267,7 +268,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                     className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 transition-all duration-300 rounded-full ${
                       activeSection === 'nosotros' ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
-                    style={{backgroundColor: colors.primaryGreen}}
+                    style={{backgroundColor: 'currentColor'}}
                   ></div>
                 </a>
                 <a 
@@ -296,7 +297,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                   }`} 
                   style={{
                     transitionDelay: '1100ms',
-                    color: activeSection === 'faq' ? colors.primaryGreen : (isDark ? colors.textPrimary : colors.darkGreen)
+                    color: isDark ? '#ffffff' : colors.textPrimary
                   }}
                 >
                   FAQ
@@ -304,7 +305,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                     className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 transition-all duration-300 rounded-full ${
                       activeSection === 'faq' ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
-                    style={{backgroundColor: colors.primaryGreen}}
+                    style={{backgroundColor: 'currentColor'}}
                   ></div>
                 </a>
                 <a 
@@ -333,7 +334,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                   }`} 
                   style={{
                     transitionDelay: '1200ms',
-                    color: activeSection === 'contacto' ? colors.primaryGreen : (isDark ? colors.textPrimary : colors.darkGreen)
+                    color: isDark ? '#ffffff' : colors.textPrimary
                   }}
                 >
                   <AnimatedText translationKey="contact" />
@@ -341,7 +342,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                     className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 transition-all duration-300 rounded-full ${
                       activeSection === 'contacto' ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
-                    style={{backgroundColor: colors.primaryGreen}}
+                    style={{backgroundColor: 'currentColor'}}
                   ></div>
                 </a>
               </nav>
@@ -363,7 +364,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                     className="flex items-center justify-center space-x-2 bg-white/40 dark:bg-white/10 backdrop-blur-xl rounded-lg px-4 py-2.5 border-2 group-hover:bg-white/60 dark:group-hover:bg-white/20 transition-all duration-300 w-[85px]"
                     style={{borderColor: isDark ? '#ffffff60' : colors.cardBorder}}
                   >
-                    <span className="text-sm font-semibold" style={{color: isDark ? '#ffffff' : colors.primaryGreen}}>
+                    <span className="text-sm font-semibold" style={{color: isDark ? '#ffffff' : colors.textPrimary}}>
                       {language === 'en' ? 'EN' : 'ES'}
                     </span>
                     <svg 
@@ -373,7 +374,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                       fill="none" 
                       stroke="currentColor" 
                       viewBox="0 0 24 24"
-                      style={{color: isDark ? '#ffffff' : colors.primaryGreen}}
+                      style={{color: isDark ? '#ffffff' : colors.textPrimary}}
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
@@ -396,7 +397,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                       className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 first:rounded-t-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:scale-105 ${
                         language === 'en' ? 'font-semibold' : ''
                       }`}
-                      style={{color: language === 'en' ? colors.primaryGreen : colors.textPrimary}}
+                      style={{color: language === 'en' ? colors.textPrimary : colors.textPrimary}}
                     >
                       English
                     </button>
@@ -408,30 +409,19 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                       className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 last:rounded-b-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:scale-105 ${
                         language === 'es' ? 'font-semibold' : ''
                       }`}
-                      style={{color: language === 'es' ? colors.primaryGreen : colors.textPrimary}}
+                      style={{color: language === 'es' ? colors.textPrimary : colors.textPrimary}}
                     >
                       Español
                     </button>
                   </div>
                 </div>
 
-                {/* Theme Toggle simple */}
-                <button
-                  onClick={toggleTheme}
+                {/* Theme Toggle with animated view transition */}
+                <AnimatedThemeToggler
                   className="p-2.5 rounded-lg bg-white/40 dark:bg-white/10 backdrop-blur-xl border-2 hover:bg-white/60 dark:hover:bg-white/20 transition-all duration-300 w-[44px] h-[44px] flex items-center justify-center"
                   aria-label="Toggle theme"
-                  style={{borderColor: isDark ? '#ffffff60' : colors.cardBorder, color: isDark ? '#ffffff' : colors.primaryGreen}}
-                >
-                  {isDark ? (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                  )}
-                </button>
+                  style={{borderColor: isDark ? '#ffffff60' : colors.cardBorder, color: isDark ? '#ffffff' : colors.textPrimary}}
+                />
               </div>
 
               {/* Separador con más espacio */}
@@ -449,15 +439,15 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                     <button 
                       className="flex items-center gap-3 px-4 py-2 rounded-lg font-medium text-white transition-all duration-300 shadow-lg whitespace-nowrap"
                       style={{
-                        background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.darkGreen} 100%)`,
-                        boxShadow: '0 10px 15px -3px rgba(46, 143, 106, 0.3)'
+                        background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)',
+                        boxShadow: '0 10px 15px -3px rgba(0,0,0,0.35)'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(46, 143, 106, 0.5)';
+                         e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.5)';
                         e.currentTarget.style.transform = 'translateY(-1px)';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(46, 143, 106, 0.3)';
+                         e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.35)';
                         e.currentTarget.style.transform = 'translateY(0)';
                       }}
                     >
@@ -508,15 +498,15 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                     onClick={() => navigate('/login')}
                     className="px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 shadow-lg whitespace-nowrap min-w-[100px] text-center"
                     style={{
-                      background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.darkGreen} 100%)`,
-                      boxShadow: '0 10px 15px -3px rgba(46, 143, 106, 0.3)'
+                      background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)',
+                      boxShadow: '0 10px 15px -3px rgba(0,0,0,0.35)'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(46, 143, 106, 0.5)';
+                      e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.5)';
                       e.currentTarget.style.transform = 'translateY(-1px)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(46, 143, 106, 0.3)';
+                      e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.35)';
                       e.currentTarget.style.transform = 'translateY(0)';
                     }}
                   >
@@ -534,7 +524,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 style={{
                   transitionDelay: '1600ms',
                   borderColor: colors.cardBorder,
-                  color: colors.primaryGreen
+                  color: isDark ? '#ffffff' : colors.textPrimary
                 }}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

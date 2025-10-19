@@ -37,7 +37,7 @@ const ChartContainer = React.forwardRef<
       typeof RechartsPrimitive.ResponsiveContainer
     >["children"]
   }
->(({ id, className, children, config, ...props }, ref) => {
+>(({ id, className, children, config }, ref) => {
   const uniqueId = React.useId()
   const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`
 
@@ -47,7 +47,6 @@ const ChartContainer = React.forwardRef<
         data-chart={chartId}
         ref={ref}
         className={cn("aspect-auto", className)}
-        {...props}
       >
         <style
           dangerouslySetInnerHTML={{
@@ -92,7 +91,7 @@ const ChartTooltipContent = React.forwardRef<
       label,
       nameKey,
       labelKey,
-      ...props
+      // Do not spread unknown Tooltip props (e.g., cursor, wrapperStyle) to DOM
     }: any,
     ref
   ) => {
@@ -107,7 +106,6 @@ const ChartTooltipContent = React.forwardRef<
           "rounded-lg border bg-background p-2 shadow-md",
           className
         )}
-        {...props}
       >
         {!hideLabel && label && (
           <div className="mb-2 font-medium">{label}</div>
@@ -159,7 +157,7 @@ const ChartLegendContent = React.forwardRef<
   }
 >(
   (
-    { className, hideIcon = false, payload, verticalAlign = "bottom", nameKey, ...props },
+    { className, hideIcon = false, payload, verticalAlign = "bottom", nameKey },
     ref
   ) => {
     if (!payload?.length) {
@@ -170,7 +168,6 @@ const ChartLegendContent = React.forwardRef<
       <div
         ref={ref}
         className={cn("flex items-center justify-center gap-4", className)}
-        {...props}
       >
         {payload
           .filter((item) => item.type !== "none")

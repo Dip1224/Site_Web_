@@ -1,16 +1,14 @@
-import React from 'react'
+﻿import React from 'react'
 import { useTheme } from './contexts/ThemeContext'
 import { useLanguage } from './contexts/LanguageContext'
-import { useAuth } from './contexts/AuthContext'
 import { useThemeColors } from './hooks/useThemeColors'
 import { Header } from './components/Header'
 import { AnimatedComponent } from './components/AnimatedComponent'
 import { AnimatedText } from './components/AnimatedText'
-import { ShimmerText } from './components/ShimmerText'
-import { StarsBackground } from './components/StarsBackground'
 import { GlowingEffect } from './components/GlowingEffect'
 import { LynxLogo } from './components/ui/LynxLogo'
-import { Particles } from './components/Particles'
+import { Particles } from '@/components/ui/particles'
+import { SmoothCursor } from '@/components/ui/smooth-cursor'
 import { CometCard } from './components/CometCard'
 import CardFlip from './components/CardFlip'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './components/ui/accordion'
@@ -67,15 +65,12 @@ function App() {
   const { t, language } = useLanguage()
   const colors = useThemeColors()
   
-  // DEBUG: Verificar que los colores están llegando correctamente
-  console.log('🔍 App.tsx - isDark:', isDark)
-  console.log('🔍 App.tsx - colors.background:', colors.background)
-  console.log('🔍 App.tsx - colors.textPrimary:', colors.textPrimary)
+  // DEBUG deshabilitado para producciÃ³n
 
-  // Opcional: Redirigir a dashboard si el usuario ya está autenticado
+  // Opcional: Redirigir a dashboard si el usuario ya estÃ¡ autenticado
   // Comentado para permitir ver la landing page
 
-  // Función de scroll suave personalizada con easing avanzado
+  // FunciÃ³n de scroll suave personalizada con easing avanzado
   const smoothScrollTo = (elementId: string, offset: number = 120) => {
     const element = document.getElementById(elementId)
     if (!element) return
@@ -83,11 +78,11 @@ function App() {
     const targetPosition = element.offsetTop - offset
     const startPosition = window.pageYOffset
     const distance = targetPosition - startPosition
-    const duration = Math.min(Math.max(Math.abs(distance) / 2, 800), 2000) // Duración dinámica entre 800ms y 2s
+    const duration = Math.min(Math.max(Math.abs(distance) / 2, 800), 2000) // DuraciÃ³n dinÃ¡mica entre 800ms y 2s
     
     let start: number | null = null
 
-    // Función de easing personalizada (easeInOutCubic)
+    // FunciÃ³n de easing personalizada (easeInOutCubic)
     const easeInOutCubic = (t: number): number => {
       return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
     }
@@ -108,7 +103,7 @@ function App() {
     requestAnimationFrame(animation)
   }
 
-  // Función para agregar efecto de pulso al hacer click
+  // FunciÃ³n para agregar efecto de pulso al hacer click
   const addClickPulse = (e: React.MouseEvent<HTMLButtonElement>) => {
     const button = e.currentTarget
     button.style.transform = 'scale(0.95)'
@@ -134,52 +129,32 @@ function App() {
         }}
       >
         {/* Efectos de fondo futurista con verde suave */}
-        <div 
-          className="absolute inset-0 transition-all duration-700" 
-          style={{
-            background: colors.overlayGradient,
-            transition: 'background 700ms ease-in-out'
-          }}
-        ></div>
+        {/* overlay eliminado */}
         
-        {/* Stars Background Effect */}
-        <StarsBackground 
-          className="absolute inset-0 z-0"
-          starCount={150}
-          speed={30}
-          factor={0.05}
-        />
+        {/* Stars background removed as requested */}
         
         {/* Interactive Particles Background */}
         <Particles
-          className="absolute inset-0 z-5"
+          className="absolute inset-0 z-[5]"
           quantity={120}
-          staticity={40}
+          staticity={50}
           ease={60}
           size={0.8}
-          color={isDark ? colors.primaryGreen : '#16a34a'}
+          color={isDark ? '#FFFFFF' : '#111111'}
         />
         
         {/* Grid de fondo tech con verde suave */}
-        <div className="absolute inset-0 opacity-15 dark:opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, ${colors.gridColor} 1px, transparent 0)`,
-            backgroundSize: '50px 50px'
-          }}></div>
-        </div>
+        {/* grid eliminado */}
         
 
         
-        {/* Partículas pequeñas con nueva paleta */}
-        <div className="absolute top-1/4 left-1/3 w-2 h-2 rounded-full animate-ping hidden xl:block" style={{background: colors.lightGreen + '70'}}></div>
-        <div className="absolute top-1/2 right-1/4 w-1 h-1 rounded-full animate-ping hidden xl:block" style={{background: colors.lightGreen + '80', animationDelay: '2s'}}></div>
-        <div className="absolute bottom-1/3 left-1/2 w-1.5 h-1.5 rounded-full animate-ping hidden xl:block" style={{background: colors.lightGreen + '70', animationDelay: '1s'}}></div>
-        <div className="absolute top-3/4 left-1/5 w-1 h-1 rounded-full animate-ping hidden xl:block" style={{background: colors.lightGreen + '65', animationDelay: '3s'}}></div>
+        {/* PartÃ­culas pequeÃ±as con nueva paleta */}
+        {/* pings eliminados */}
         
         <div className="relative z-10">
           <Header />
 
-          {/* Espaciado para el header flotante más grande */}
+          {/* Espaciado para el header flotante mÃ¡s grande */}
           <div className="pt-40"></div>
 
           <main className="max-w-7xl mx-auto px-6 py-16">
@@ -187,7 +162,7 @@ function App() {
             <section id="home" className="min-h-screen flex items-center justify-center -mt-20">
               <AnimatedComponent animation="fadeInUp" className="text-center mb-16 relative max-w-6xl mx-auto">
                 <div className="absolute inset-0 backdrop-blur-3xl rounded-3xl border shadow-2xl" style={{
-                  backgroundColor: isDark ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)',
+                  backgroundColor: colors.panelBg,
                   borderColor: colors.cardBorder, 
                   boxShadow: colors.cardShadow
                 }}></div>
@@ -204,29 +179,25 @@ function App() {
                   className="rounded-3xl"
                 />
                 
-                <div className="relative z-10 p-12">
+                <div className="relative z-10 p-12 rounded-3xl">
                   {/* Logo and brand, more prominent */}
                   <AnimatedComponent animation="fadeInUp" trigger="scroll" delay={100}>
                     <div className="mb-8">
                       <div className="flex justify-center items-center mb-6 relative">
                         <div className="w-24 h-24 rounded-2xl flex items-center justify-center shadow-lg mr-6" style={{
-                          background: isDark 
-                            ? `linear-gradient(135deg, ${colors.foreground} 0%, ${colors.background} 100%)` 
-                            : `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`, 
-                          boxShadow: isDark 
-                            ? `0 10px 15px -3px ${colors.foreground}30` 
-                            : `0 10px 15px -3px ${colors.primaryGreen}50`
+                          background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)',
+                          boxShadow: '0 10px 15px -3px rgba(0,0,0,0.35)'
                         }}>
                           <LynxLogo size={48} />
                         </div>
                         <div className="text-left">
-                          <h1 className="text-3xl md:text-4xl font-bold" style={{color: isDark ? '#fff' : colors.primaryGreen}}>LynxTech</h1>
+                          <h1 className="text-3xl md:text-4xl font-bold" style={{color: isDark ? '#fff' : '#181e19'}}>WorkEz</h1>
                         </div>
                       </div>
                     </div>
                   </AnimatedComponent>
 
-                  {/* Título principal con efecto shimmer */}
+                  {/* TÃ­tulo principal con efecto shimmer */}
                   <AnimatedComponent animation="fadeInUp" trigger="scroll" delay={300}>
                     <div className="mb-8">
                       <h1 
@@ -250,7 +221,7 @@ function App() {
                   {/* Botones principales actualizados */}
                   <AnimatedComponent animation="scaleIn" trigger="scroll" delay={900}>
                   <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                    {/* Botón principal - Ver membresías */}
+                    {/* BotÃ³n principal - Ver membresÃ­as */}
                     <button 
                       onClick={(e) => {
                         console.log('Button clicked, scrolling to servicios')
@@ -259,17 +230,17 @@ function App() {
                       }}
                       className="group relative text-white px-12 py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-2xl hover:scale-105 border overflow-hidden transform smooth-scroll-button"
                       style={{
-                        background: `linear-gradient(to right, ${colors.primaryGreen}, ${colors.accentGreen})`,
-                        boxShadow: `0 25px 50px -12px ${colors.primaryGreen}60`,
-                        borderColor: `${colors.primaryGreen}80`
+                        background: 'linear-gradient(to right, #1b1f1d, #0f1412)',
+                        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
+                        borderColor: '#1b1f1d'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = `linear-gradient(to right, ${colors.darkGreen}, ${colors.primaryGreen})`
-                        e.currentTarget.style.boxShadow = `0 25px 50px -12px ${colors.primaryGreen}80`
+                        e.currentTarget.style.background = 'linear-gradient(to right, #1b1f1d, #0f1412)'
+                        e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(0,0,0,0.6)'
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = `linear-gradient(to right, ${colors.primaryGreen}, ${colors.accentGreen})`
-                        e.currentTarget.style.boxShadow = `0 25px 50px -12px ${colors.primaryGreen}60`
+                        e.currentTarget.style.background = 'linear-gradient(to right, #1b1f1d, #0f1412)'
+                        e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(0,0,0,0.5)'
                       }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -281,7 +252,7 @@ function App() {
                       </span>
                     </button>
 
-                    {/* Botón secundario - Hablar con asesor */}
+                    {/* BotÃ³n secundario - Hablar con asesor */}
                     <button 
                       onClick={(e) => {
                         addClickPulse(e)
@@ -289,17 +260,17 @@ function App() {
                       }}
                       className="group relative px-12 py-4 rounded-2xl font-bold text-lg transition-all duration-300 hover:scale-105 border-2 overflow-hidden transform text-white smooth-scroll-button"
                       style={{
-                        borderColor: colors.primaryGreen,
+                        borderColor: colors.cardBorder,
                         background: 'rgba(255, 255, 255, 0.1)',
                         backdropFilter: 'blur(10px)'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = `${colors.primaryGreen}20`
-                        e.currentTarget.style.borderColor = colors.lightGreen
+                        e.currentTarget.style.background = 'rgba(0,0,0,0.08)'
+                        e.currentTarget.style.borderColor = colors.cardBorder
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
-                        e.currentTarget.style.borderColor = colors.primaryGreen
+                        e.currentTarget.style.borderColor = colors.cardBorder
                       }}
                     >
                       <span className="relative z-10 flex items-center gap-3">
@@ -315,12 +286,12 @@ function App() {
               </AnimatedComponent>
             </section>
 
-            {/* Sección de Servicios - Nuestras Soluciones Digitales */}
+            {/* SecciÃ³n de Servicios - Nuestras Soluciones Digitales */}
             <AnimatedComponent animation="slideInLeft" trigger="scroll" delay={200}>
               <section id="servicios" className="py-24" style={{background: `linear-gradient(to bottom, ${colors.background}20, transparent)`}}>
                 <div className="max-w-7xl mx-auto px-6 relative">
                   <div className="absolute inset-0 backdrop-blur-3xl rounded-3xl border shadow-2xl" style={{
-                    backgroundColor: isDark ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)',
+                    backgroundColor: colors.panelBg,
                     borderColor: colors.cardBorder, 
                     boxShadow: colors.cardShadow
                   }}></div>
@@ -337,7 +308,7 @@ function App() {
                     className="rounded-3xl"
                   />
 
-                  <div className="relative z-10 p-12">
+                  <div className="relative z-10 p-12 rounded-3xl">
                     <div className="text-center mb-20">
                       <h2 className="text-5xl md:text-6xl font-bold mb-6" style={{ color: colors.textPrimary }}>
                         {t('servicesTitle')}
@@ -398,16 +369,16 @@ function App() {
                       }}
                       className="text-white px-12 py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-2xl hover:scale-105 group smooth-scroll-button" 
                       style={{
-                        background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`, 
-                        boxShadow: `0 25px 50px -12px ${colors.primaryGreen}50`
+                        background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)', 
+                        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.4)'
                       }} 
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = `linear-gradient(135deg, ${colors.darkGreen} 0%, ${colors.primaryGreen} 100%)`;
-                        e.currentTarget.style.boxShadow = `0 25px 50px -12px ${colors.primaryGreen}70`;
+                        e.currentTarget.style.background = 'linear-gradient(135deg, #202624 0%, #0f1412 100%)';
+                        e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(0,0,0,0.55)';
                       }} 
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`;
-                        e.currentTarget.style.boxShadow = `0 25px 50px -12px ${colors.primaryGreen}50`;
+                        e.currentTarget.style.background = 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)';
+                        e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(0,0,0,0.4)';
                       }}
                     >
                       <span className="flex items-center gap-3">
@@ -423,12 +394,12 @@ function App() {
               </section>
             </AnimatedComponent>
 
-            {/* Sección Nosotros - Quiénes Somos */}
+            {/* SecciÃ³n Nosotros - QuiÃ©nes Somos */}
             <AnimatedComponent animation="fadeInUp" trigger="scroll" delay={300}>
               <section id="nosotros" className="py-20" style={{background: `linear-gradient(to bottom, ${colors.background}10, transparent)`}}>
                 <div className="max-w-7xl mx-auto px-6 relative">
                   <div className="absolute inset-0 backdrop-blur-3xl rounded-3xl border shadow-2xl" style={{
-                    backgroundColor: isDark ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)',
+                    backgroundColor: colors.panelBg,
                     borderColor: colors.cardBorder, 
                     boxShadow: colors.cardShadow
                   }}></div>
@@ -445,7 +416,7 @@ function App() {
                     className="rounded-3xl"
                   />
 
-                  <div className="relative z-10 p-12">
+                  <div className="relative z-10 p-12 rounded-3xl">
                     <div className="text-center mb-16">
                       <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: colors.textPrimary }}>
                         {t('aboutTitle')}
@@ -455,12 +426,12 @@ function App() {
                       </p>
                     </div>
 
-                    {/* Descripción principal */}
+                    {/* DescripciÃ³n principal */}
                 <div 
                   className="backdrop-blur-xl rounded-3xl p-12 mb-16 text-center" 
                   style={{
                     backgroundColor: isDark ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.6)',
-                    border: `1px solid ${colors.primaryGreen}30`
+                    border: `1px solid ${colors.cardBorder}`
                   }}
                 >
                   <p className="text-xl md:text-2xl font-light leading-relaxed" style={{ color: colors.textPrimary }}>
@@ -486,43 +457,44 @@ function App() {
                       >
                         <div className="flex flex-col items-center text-center p-2">
                           <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 shadow-lg"
-                               style={{background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`, boxShadow: `0 10px 15px -3px ${colors.primaryGreen}50`}}>
+                               style={{background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.35)'}}>
                             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                             </svg>
                           </div>
                           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Confianza</h3>
                           <p className="text-gray-600 dark:text-gray-400 text-sm">
-                            Construimos relaciones sólidas basadas en transparencia y resultados.
+                            Construimos relaciones sÃ³lidas basadas en transparencia y resultados.
                           </p>
                         </div>
                       </button>
                     </CometCard>
                   </AnimatedComponent>
 
-                  {/* Innovación */}
+                  {/* InnovaciÃ³n */}
                   <AnimatedComponent animation="fadeInUp" trigger="scroll" delay={400}>
                     <CometCard>
                       <button
                         type="button"
-                        className="my-4 flex w-full cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-white/80 dark:bg-black/40 backdrop-blur-xl p-4 transition-all duration-300 hover:shadow-2xl"
-                        aria-label="Innovación"
+                        className="my-4 flex w-full cursor-pointer flex-col items-stretch rounded-[16px] border-0 backdrop-blur-xl p-4 transition-all duration-300 hover:shadow-2xl"
+                        aria-label="InnovaciÃ³n"
                         style={{
                           transformStyle: "preserve-3d",
                           transform: "none",
                           opacity: 1,
+                          backgroundColor: isDark ? 'hsl(var(--card) / 0.4)' : 'hsl(var(--card) / 0.8)'
                         }}
                       >
                         <div className="flex flex-col items-center text-center p-2">
                           <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 shadow-lg"
-                               style={{background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`, boxShadow: `0 10px 15px -3px ${colors.primaryGreen}50`}}>
+                               style={{background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.35)'}}>
                             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
                           </div>
-                          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Innovación</h3>
-                          <p className="text-gray-600 dark:text-gray-400 text-sm">
-                            Adoptamos las últimas tecnologías para ofrecer soluciones de vanguardia.
+                          <h3 className="text-xl font-bold text-foreground mb-2">InnovaciÃ³n</h3>
+                          <p className="text-muted-foreground text-sm">
+                            Adoptamos las Ãºltimas tecnologÃ­as para ofrecer soluciones de vanguardia.
                           </p>
                         </div>
                       </button>
@@ -534,19 +506,20 @@ function App() {
                     <CometCard>
                       <button
                         type="button"
-                        className="my-4 flex w-full cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-white/80 dark:bg-black/40 backdrop-blur-xl p-4 transition-all duration-300 hover:shadow-2xl"
+                        className="my-4 flex w-full cursor-pointer flex-col items-stretch rounded-[16px] border-0 backdrop-blur-xl p-4 transition-all duration-300 hover:shadow-2xl"
                         aria-label="Accesibilidad"
                         style={{
                           transformStyle: "preserve-3d",
                           transform: "none",
                           opacity: 1,
+                          backgroundColor: isDark ? 'hsl(var(--card) / 0.4)' : 'hsl(var(--card) / 0.8)'
                         }}
                       >
                         <div className="flex flex-col items-center text-center p-2">
                           <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 shadow-lg"
-                               style={{background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`, boxShadow: `0 10px 15px -3px ${colors.primaryGreen}50`}}>
+                               style={{background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.35)'}}>
                             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                              {/* Símbolo universal de accesibilidad moderno */}
+                              {/* SÃ­mbolo universal de accesibilidad moderno */}
                               <circle cx="12" cy="6" r="2"/>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M16 10c0-1-1-2-2-2h-4c-1 0-2 1-2 2v2l2 8h4l2-8v-2z"/>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M8 12l-2 2m12-2l2 2"/>
@@ -557,9 +530,9 @@ function App() {
                               <path strokeLinecap="round" strokeLinejoin="round" d="M4 20h16M12 2v2"/>
                             </svg>
                           </div>
-                          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Accesibilidad</h3>
-                          <p className="text-gray-600 dark:text-gray-400 text-sm">
-                            Hacemos la tecnología premium accesible para todos los usuarios.
+                          <h3 className="text-xl font-bold text-foreground mb-2">Accesibilidad</h3>
+                          <p className="text-muted-foreground text-sm">
+                            Hacemos la tecnologÃ­a premium accesible para todos los usuarios.
                           </p>
                         </div>
                       </button>
@@ -571,12 +544,13 @@ function App() {
                     <CometCard>
                       <button
                         type="button"
-                        className="my-4 flex w-full cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-white/80 dark:bg-black/40 backdrop-blur-xl p-4 transition-all duration-300 hover:shadow-2xl"
+                        className="my-4 flex w-full cursor-pointer flex-col items-stretch rounded-[16px] border-0 backdrop-blur-xl p-4 transition-all duration-300 hover:shadow-2xl"
                         aria-label="Soporte Personalizado"
                         style={{
                           transformStyle: "preserve-3d",
                           transform: "none",
                           opacity: 1,
+                          backgroundColor: isDark ? 'hsl(var(--card) / 0.4)' : 'hsl(var(--card) / 0.8)'
                         }}
                       >
                         <div className="flex flex-col items-center text-center p-2">
@@ -586,9 +560,9 @@ function App() {
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
                           </div>
-                          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Soporte Personalizado</h3>
-                          <p className="text-gray-600 dark:text-gray-400 text-sm">
-                            Ofrecemos atención individualizada para cada necesidad específica.
+                          <h3 className="text-xl font-bold text-foreground mb-2">Soporte Personalizado</h3>
+                          <p className="text-muted-foreground text-sm">
+                            Ofrecemos atenciÃ³n individualizada para cada necesidad especÃ­fica.
                           </p>
                         </div>
                       </button>
@@ -596,32 +570,32 @@ function App() {
                   </AnimatedComponent>
                 </div>
 
-                {/* Sección del equipo con logo */}
+                {/* SecciÃ³n del equipo con logo */}
                 <div className="mt-16 text-center">
                   <div 
                     className="backdrop-blur-xl rounded-3xl p-12" 
                     style={{
                       backgroundColor: isDark ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.4)',
-                      border: `1px solid ${colors.primaryGreen}20`
+                      border: `1px solid ${colors.cardBorder}`
                     }}
                   >
                     <div className="flex justify-center items-center mb-6">
-                      <div className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg mr-6" style={{background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`, boxShadow: `0 10px 15px -3px ${colors.primaryGreen}50`}}>
+                      <div className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg mr-6" style={{background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.35)'}}>
                         <LynxLogo size={40} />
                       </div>
                       <div>
-                        <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">LynxTech Team</h3>
+                        <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">WorkEz Team</h3>
                         <p className="text-lg text-gray-600 dark:text-gray-400">Construyendo el futuro digital</p>
                       </div>
                     </div>
                   </div>
+                </div>
                   </div>
-                </div>
-                </div>
+                  </div>
               </section>
             </AnimatedComponent>
 
-            {/* Sección FAQ - Preguntas Frecuentes */}
+            {/* SecciÃ³n FAQ - Preguntas Frecuentes */}
             <AnimatedComponent animation="fadeInUp" trigger="scroll" delay={200}>
               <section id="faq" className="py-20" style={{background: `linear-gradient(to bottom, ${colors.background}10, transparent)`}}>
                 <div className="max-w-4xl mx-auto px-6">
@@ -697,13 +671,13 @@ function App() {
                   {/* Call to Action */}
                   <div className="text-center mt-16">
                     <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                      ¿Tienes más preguntas? Estamos aquí para ayudarte
+                      Â¿Tienes mÃ¡s preguntas? Estamos aquÃ­ para ayudarte
                     </p>
                     <button 
                       className="px-8 py-4 rounded-xl font-semibold text-lg text-white transition-all duration-300 hover:scale-105 shadow-lg smooth-scroll-button"
                       style={{
-                        background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`,
-                        boxShadow: `0 10px 30px ${colors.primaryGreen}30`
+                        background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)',
+                        boxShadow: '0 10px 30px rgba(0,0,0,0.35)'
                       }}
                       onClick={(e) => {
                         addClickPulse(e)
@@ -711,21 +685,21 @@ function App() {
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'scale(1.05)';
-                        e.currentTarget.style.boxShadow = `0 20px 40px ${colors.primaryGreen}40`;
+                        e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.45)';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'scale(1)';
-                        e.currentTarget.style.boxShadow = `0 10px 30px ${colors.primaryGreen}30`;
+                        e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.35)';
                       }}
                     >
-                      Contáctanos ahora
+                      ContÃ¡ctanos ahora
                     </button>
                   </div>
                 </div>
               </section>
             </AnimatedComponent>
 
-            {/* Sección de Sugerencias */}
+            {/* SecciÃ³n de Sugerencias */}
             <AnimatedComponent animation="fadeInUp" trigger="scroll" delay={300}>
               <section className="py-16" style={{background: `linear-gradient(to bottom, ${colors.background}20, transparent)`}}>
                 <div className="container mx-auto px-6">
@@ -734,7 +708,7 @@ function App() {
                       <span 
                         className="bg-clip-text text-transparent bg-gradient-to-r"
                         style={{
-                          background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.lightGreen} 100%)`,
+                          background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)',
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent'
                         }}
@@ -755,13 +729,13 @@ function App() {
                       }}
                     >
                       <div className="flex flex-col gap-6">
-                        {/* Label y descripción */}
+                        {/* Label y descripciÃ³n */}
                         <div className="text-left">
                           <label 
                             className="block text-sm font-medium mb-2"
                             style={{ color: colors.textPrimary }}
                           >
-                            {language === 'es' ? 'Descripción de la sugerencia' : 'Suggestion description'}
+                            {language === 'es' ? 'DescripciÃ³n de la sugerencia' : 'Suggestion description'}
                           </label>
                           <p className="text-sm mb-4" style={{ color: colors.textTertiary }}>
                             {language === 'es' 
@@ -775,7 +749,7 @@ function App() {
                         <div className="flex flex-col md:flex-row gap-4 items-end">
                           <div className="flex-1">
                             <textarea
-                              placeholder={language === 'es' ? 'Escribe tu sugerencia aquí...' : 'Write your suggestion here...'}
+                              placeholder={language === 'es' ? 'Escribe tu sugerencia aquÃ­...' : 'Write your suggestion here...'}
                               className="w-full px-4 py-3 rounded-xl border-none resize-none focus:outline-none focus:ring-2 transition-all duration-300"
                               style={{
                                 backgroundColor: `${colors.background}80`,
@@ -794,8 +768,8 @@ function App() {
                             }}
                             onClick={(e) => {
                               addClickPulse(e);
-                              // Aquí se puede agregar lógica para enviar la sugerencia
-                              alert(language === 'es' ? '¡Gracias por tu sugerencia! 💚' : 'Thank you for your suggestion! 💚');
+                              // AquÃ­ se puede agregar lÃ³gica para enviar la sugerencia
+                              alert(language === 'es' ? 'Â¡Gracias por tu sugerencia! ðŸ’š' : 'Thank you for your suggestion! ðŸ’š');
                             }}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.transform = 'scale(1.05)';
@@ -816,13 +790,13 @@ function App() {
               </section>
             </AnimatedComponent>
 
-            {/* Sección de Contacto - Membresía Digital */}
+            {/* SecciÃ³n de Contacto - MembresÃ­a Digital */}
             <AnimatedComponent animation="bounceIn" trigger="scroll" delay={500}>
-              <section id="contacto" className="py-20 relative overflow-hidden" style={{background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 50%, ${colors.darkGreen} 100%)`}}>
+              <section id="contacto" className="py-20 relative overflow-hidden" style={{background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)'}}>
                 {/* Elementos de fondo decorativos */}
-                <div className="absolute inset-0 animate-pulse" style={{background: `linear-gradient(to right, ${colors.lightGreen}20, ${colors.accentGreen}20)`}}></div>
+                <div className="absolute inset-0 animate-pulse" style={{background: 'linear-gradient(to right, rgba(0,0,0,0.08), rgba(0,0,0,0.12))'}}></div>
                 
-                {/* Glowing Effect para toda la sección */}
+                {/* Glowing Effect para toda la secciÃ³n */}
                 <GlowingEffect
                   spread={80}
                   glow={true}
@@ -835,13 +809,13 @@ function App() {
                 />
                 
                 <AnimatedComponent animation="bounceIn" delay={500}>
-                  <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full"></div>
+                  <div className="absolute top-10 left-10 w-20 h-20 bg-card/10 rounded-full"></div>
                 </AnimatedComponent>
                 <AnimatedComponent animation="bounceIn" delay={1000}>
-                  <div className="absolute bottom-10 right-10 w-16 h-16 bg-white/10 rounded-full"></div>
+                  <div className="absolute bottom-10 right-10 w-16 h-16 bg-card/10 rounded-full"></div>
                 </AnimatedComponent>
                 <AnimatedComponent animation="bounceIn" delay={2000}>
-                  <div className="absolute top-1/2 left-1/4 w-12 h-12 bg-white/10 rounded-full"></div>
+                  <div className="absolute top-1/2 left-1/4 w-12 h-12 bg-card/10 rounded-full"></div>
                 </AnimatedComponent>
                 
                 <div className="relative z-10 max-w-7xl mx-auto px-6">
@@ -862,14 +836,14 @@ function App() {
                   <div className="grid lg:grid-cols-2 gap-12">
                     {/* Formulario de contacto */}
                     <AnimatedComponent animation="slideInLeft" trigger="scroll" delay={600}>
-                      <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
+                      <div className="bg-card/10 backdrop-blur-xl rounded-3xl p-8 border border-card">
                         <h3 className="text-2xl font-bold text-white mb-6">{t('contactTitle')}</h3>
                         <form className="space-y-6">
                           <div>
                             <label className="block text-white/90 text-sm font-medium mb-2">{t('contactName')}</label>
                             <input 
                               type="text" 
-                              className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300"
+                              className="w-full px-4 py-3 bg-card/20 border border-card rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))]/50 focus:border-transparent transition-all duration-300"
                               placeholder={t('contactName')}
                             />
                           </div>
@@ -877,13 +851,13 @@ function App() {
                             <label className="block text-white/90 text-sm font-medium mb-2">{t('contactEmail')}</label>
                             <input 
                               type="email" 
-                              className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300"
+                              className="w-full px-4 py-3 bg-card/20 border border-card rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))]/50 focus:border-transparent transition-all duration-300"
                               placeholder="email@example.com"
                             />
                           </div>
                           <div>
                             <label className="block text-white/90 text-sm font-medium mb-2">{t('contactInterest')}</label>
-                            <select className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300">
+                            <select className="w-full px-4 py-3 bg-card/20 border border-card rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))]/50 focus:border-transparent transition-all duration-300">
                               <option value="" className="bg-gray-800 text-white">{t('contactSelectOption')}</option>
                               <option value="ai" className="bg-gray-800 text-white">{t('contactAI')}</option>
                               <option value="design" className="bg-gray-800 text-white">{t('contactDesign')}</option>
@@ -896,14 +870,14 @@ function App() {
                             <label className="block text-white/90 text-sm font-medium mb-2">{t('contactMessage')}</label>
                             <textarea 
                               rows={4}
-                              className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all duration-300 resize-none"
+                              className="w-full px-4 py-3 bg-card/20 border border-card rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))]/50 focus:border-transparent transition-all duration-300 resize-none"
                               placeholder={t('contactMessagePlaceholder')}
                             ></textarea>
                           </div>
                           <button 
                             type="submit" 
                             className="w-full bg-white text-lg font-bold py-4 rounded-xl transition-all duration-300 hover:scale-105 shadow-2xl" 
-                            style={{color: colors.primaryGreen, boxShadow: '0 25px 50px -12px rgba(255, 255, 255, 0.3)'}}
+                            style={{color: '#1b1f1d', boxShadow: '0 25px 50px -12px rgba(255, 255, 255, 0.3)'}}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.backgroundColor = colors.foreground;
                               e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(255, 255, 255, 0.5)';
@@ -966,7 +940,7 @@ function App() {
                           </div>
                         </div>
 
-                        {/* Atención Latinoamérica */}
+                        {/* AtenciÃ³n LatinoamÃ©rica */}
                         <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
                           <div className="text-center">
                             <div className="w-16 h-16 bg-yellow-500 rounded-xl flex items-center justify-center mx-auto mb-4">
@@ -974,15 +948,15 @@ function App() {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                               </svg>
                             </div>
-                            <h4 className="text-white font-semibold text-lg mb-2">Atendemos en toda Latinoamérica</h4>
-                            <p className="text-white/80 text-sm mb-4">Soporte en español, horarios locales</p>
+                            <h4 className="text-white font-semibold text-lg mb-2">Atendemos en toda LatinoamÃ©rica</h4>
+                            <p className="text-white/80 text-sm mb-4">Soporte en espaÃ±ol, horarios locales</p>
                             <div className="flex flex-wrap justify-center gap-2 text-xs text-white/70">
-                              <span>🇲🇽 México</span>
-                              <span>🇨🇴 Colombia</span>
-                              <span>🇦🇷 Argentina</span>
-                              <span>🇵🇪 Perú</span>
-                              <span>🇪🇸 España</span>
-                              <span>🇺🇾 Uruguay</span>
+                              <span>ðŸ‡²ðŸ‡½ MÃ©xico</span>
+                              <span>ðŸ‡¨ðŸ‡´ Colombia</span>
+                              <span>ðŸ‡¦ðŸ‡· Argentina</span>
+                              <span>ðŸ‡µðŸ‡ª PerÃº</span>
+                              <span>ðŸ‡ªðŸ‡¸ EspaÃ±a</span>
+                              <span>ðŸ‡ºðŸ‡¾ Uruguay</span>
                             </div>
                           </div>
                         </div>
@@ -999,28 +973,28 @@ function App() {
             <div className="max-w-6xl mx-auto px-6">
               {/* Logo y Links principales */}
               <div className="grid md:grid-cols-4 gap-8 mb-12">
-                {/* Logo y descripción */}
+                {/* Logo y descripciÃ³n */}
                 <div className="md:col-span-2">
                   <div className="flex items-center mb-4">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center mr-3" style={{background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`}}>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center mr-3" style={{background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)'}}>
                       <span className="text-white font-bold text-xl">L</span>
                     </div>
-                    <span className="text-2xl font-bold" style={{color: colors.lightGreen}}>LynxTech</span>
+                    <span className="text-2xl font-bold" style={{color: colors.textPrimary}}>LynxTech</span>
                   </div>
-                  <p className="text-gray-400 leading-relaxed">
-                    Impulsamos tu futuro digital con herramientas académicas y soluciones empresariales innovadoras.
+                  <p className="text-muted-foreground leading-relaxed">
+                    Impulsamos tu futuro digital con herramientas acadÃ©micas y soluciones empresariales innovadoras.
                   </p>
                 </div>
 
-                {/* Links de navegación */}
+                {/* Links de navegaciÃ³n */}
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-4">Navegación</h4>
+                    <h4 className="text-lg font-semibold text-foreground mb-4">NavegaciÃ³n</h4>
                   <ul className="space-y-2">
-                    <li><a href="#inicio" onClick={(e) => {e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' })}} className="text-gray-600 dark:text-gray-300 hover:text-emerald-400 dark:hover:text-emerald-400 transition-colors duration-300"><AnimatedText translationKey="home" /></a></li>
-                    <li><a href="#servicios" onClick={(e) => {e.preventDefault(); const el = document.getElementById('servicios'); if(el) window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' })}} className="text-gray-600 dark:text-gray-300 hover:text-emerald-400 dark:hover:text-emerald-400 transition-colors duration-300"><AnimatedText translationKey="services" /></a></li>
-                    <li><a href="#nosotros" onClick={(e) => {e.preventDefault(); const el = document.getElementById('nosotros'); if(el) window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' })}} className="text-gray-600 dark:text-gray-300 hover:text-emerald-400 dark:hover:text-emerald-400 transition-colors duration-300"><AnimatedText translationKey="about" /></a></li>
-                    <li><a href="#faq" onClick={(e) => {e.preventDefault(); const el = document.getElementById('faq'); if(el) window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' })}} className="text-gray-600 dark:text-gray-300 hover:text-emerald-400 dark:hover:text-emerald-400 transition-colors duration-300">FAQ</a></li>
-                    <li><a href="#contacto" onClick={(e) => {e.preventDefault(); const el = document.getElementById('contacto'); if(el) window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' })}} className="text-gray-600 dark:text-gray-300 hover:text-emerald-400 dark:hover:text-emerald-400 transition-colors duration-300"><AnimatedText translationKey="contact" /></a></li>
+                    <li><a href="#home" onClick={(e) => {e.preventDefault(); const el = document.getElementById('home'); if(el) window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' })}} className="text-muted-foreground hover:text-emerald-400 transition-colors duration-300"><AnimatedText translationKey="home" /></a></li>
+                    <li><a href="#servicios" onClick={(e) => {e.preventDefault(); const el = document.getElementById('servicios'); if(el) window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' })}} className="text-muted-foreground hover:text-emerald-400 transition-colors duration-300"><AnimatedText translationKey="services" /></a></li>
+                    <li><a href="#nosotros" onClick={(e) => {e.preventDefault(); const el = document.getElementById('nosotros'); if(el) window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' })}} className="text-muted-foreground hover:text-emerald-400 transition-colors duration-300"><AnimatedText translationKey="about" /></a></li>
+                    <li><a href="#faq" onClick={(e) => {e.preventDefault(); const el = document.getElementById('faq'); if(el) window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' })}} className="text-muted-foreground hover:text-emerald-400 transition-colors duration-300">FAQ</a></li>
+                    <li><a href="#contacto" onClick={(e) => {e.preventDefault(); const el = document.getElementById('contacto'); if(el) window.scrollTo({ top: el.offsetTop - 120, behavior: 'smooth' })}} className="text-muted-foreground hover:text-emerald-400 transition-colors duration-300"><AnimatedText translationKey="contact" /></a></li>
                   </ul>
                 </div>
 
@@ -1035,9 +1009,7 @@ function App() {
                       style={{
                         backgroundColor: colors.secondaryContent
                       }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = colors.primaryGreen;
-                      }}
+                      
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = colors.secondaryContent;
                       }}
@@ -1054,9 +1026,7 @@ function App() {
                       style={{
                         backgroundColor: colors.secondaryContent
                       }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = colors.primaryGreen;
-                      }}
+                      
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = colors.secondaryContent;
                       }}
@@ -1067,7 +1037,7 @@ function App() {
                     </a>
 
                     {/* Telegram */}
-                    <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-600 transition-all duration-300 hover:scale-110">
+                    <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-300 hover:scale-110">
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
                       </svg>
@@ -1089,15 +1059,16 @@ function App() {
                   </div>
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
                     <a href="#privacy" className="hover:text-gray-400 transition-colors duration-300">Privacidad</a>
-                    <span>•</span>
-                    <a href="#terms" className="hover:text-gray-400 transition-colors duration-300">Términos</a>
-                    <span>•</span>
+                    <span>â€¢</span>
+                    <a href="#terms" className="hover:text-gray-400 transition-colors duration-300">TÃ©rminos</a>
+                    <span>â€¢</span>
                     <a href="#cookies" className="hover:text-gray-400 transition-colors duration-300">Cookies</a>
                   </div>
                 </div>
               </div>
             </div>
           </footer>
+          <SmoothCursor />
         </div>
       </div>
 
@@ -1106,3 +1077,8 @@ function App() {
 }
 
 export default App
+
+
+
+
+

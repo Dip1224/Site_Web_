@@ -1,19 +1,23 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { supabase } from '@/lib/supabase'
+import { ensureSession } from '@/lib/session'
 
 interface User {
   id: string
   email: string
-  name: string
+  name?: string
 }
 
 interface AuthContextType {
   user: User | null
   isAuthenticated: boolean
   isLoading: boolean
+  isReauthing: boolean
   login: (email: string, password: string) => Promise<void>
-  logout: () => void
+  register: (email: string, password: string) => Promise<void>
+  logout: () => Promise<void>
   showLogin: () => void
   hideLogin: () => void
   isLoginVisible: boolean
@@ -29,86 +33,121 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isLoginVisible, setIsLoginVisible] = useState(false)
+  const [isReauthing, setIsReauthing] = useState(false)
 
+  // Robust init + subscription that works under React StrictMode (double-mount in dev)
   useEffect(() => {
-    // Limpiar cualquier dato de usuario previo para evitar estados inconsistentes
-    console.log('🧹 AuthContext - Limpiando estado de autenticación al inicio')
-    localStorage.removeItem('lynxtech_user')
-    setUser(null)
-    setIsLoading(false)
+    let isMounted = true
+
+    const init = async () => {
+      const attempt = async (retry = false) => {
+        try {
+          const session = await ensureSession()
+          if (!isMounted) return
+          const u = session?.user
+          if (u) {
+            setUser({
+              id: u.id,
+              email: u.email ?? '',
+              name: (u.user_metadata as any)?.name || u.email?.split('@')[0]
+            })
+          } else {
+            setUser(null)
+          }
+        } finally {
+          if (isMounted) setIsLoading(false)
+          if (isMounted) setIsReauthing(false)
+        }
+      }
+
+      attempt(false)
+    }
+
+    init()
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!isMounted) return
+      const u = session?.user
+      if (u) {
+        setUser({
+          id: u.id,
+          email: u.email ?? '',
+          name: (u.user_metadata as any)?.name || u.email?.split('@')[0]
+        })
+      } else {
+        setUser(null)
+      }
+      setIsLoading(false)
+      setIsReauthing(false)
+    })
+
+    return () => {
+      isMounted = false
+      sub?.subscription?.unsubscribe?.()
+    }
   }, [])
 
   const login = async (email: string, password: string): Promise<void> => {
-    console.log('🔑 AuthContext - Iniciando login:', { email })
     setIsLoading(true)
-    
     try {
-      // Simulación de autenticación - en producción esto sería una llamada a la API
-      console.log('⏳ Simulando delay de autenticación...')
-      await new Promise(resolve => setTimeout(resolve, 800)) // Simular delay de red
-      
-      // Validación básica simplificada para desarrollo
-      if (!email || !password) {
-        throw new Error('Email y contraseña son requeridos')
-      }
-
-      // Para desarrollo, aceptar cualquier email válido
-      if (!email.includes('@')) {
-        throw new Error('Formato de email inválido')
-      }
-
-      // Crear usuario simulado
-      const newUser: User = {
-        id: `user_${Date.now()}`,
-        email,
-        name: email.split('@')[0] // Usar la parte antes del @ como nombre
-      }
-
-      console.log('✅ AuthContext - Usuario creado:', newUser)
-      setUser(newUser)
-      localStorage.setItem('lynxtech_user', JSON.stringify(newUser))
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) throw error
+      const u = data.user
+      if (!u) throw new Error('No se pudo obtener el usuario')
+      setUser({
+        id: u.id,
+        email: u.email ?? '',
+        name: (u.user_metadata as any)?.name || u.email?.split('@')[0]
+      })
       setIsLoginVisible(false)
-      
-      console.log('✅ AuthContext - Login completado exitosamente')
-    } catch (error) {
-      console.error('❌ AuthContext - Error en login:', error)
-      throw error
     } finally {
       setIsLoading(false)
-      console.log('🏁 AuthContext - Login process finished')
     }
   }
 
-  const logout = () => {
-    console.log('🚪 AuthContext - Logout ejecutado')
-    setUser(null)
-    localStorage.removeItem('lynxtech_user')
-    setIsLoginVisible(false)
+  const register = async (email: string, password: string): Promise<void> => {
+    setIsLoading(true)
+    try {
+      const { data, error } = await supabase.auth.signUp({ email, password })
+      if (error) throw error
+      const u = data.user
+      if (!u) return
+      setUser({ id: u.id, email: u.email ?? '', name: (u.user_metadata as any)?.name || u.email?.split('@')[0] })
+      setIsLoginVisible(false)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const showLogin = () => {
-    setIsLoginVisible(true)
+  const logout = async () => {
+    setIsLoading(true)
+    try {
+      await supabase.auth.signOut()
+      setUser(null)
+      setIsLoginVisible(false)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const hideLogin = () => {
-    setIsLoginVisible(false)
-  }
+  const showLogin = () => setIsLoginVisible(true)
+  const hideLogin = () => setIsLoginVisible(false)
 
   const value: AuthContextType = {
     user,
     isAuthenticated: !!user,
     isLoading,
+    isReauthing,
     login,
+    register,
     logout,
     showLogin,
     hideLogin,
-    isLoginVisible
+    isLoginVisible,
   }
 
   return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
   )
 }
 

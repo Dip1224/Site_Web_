@@ -18,13 +18,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -32,7 +26,7 @@ import {
 
 export const description = "An interactive area chart"
 
-const chartData = [
+const fallbackData = [
   { date: "2024-04-01", desktop: 222, mobile: 150 },
   { date: "2024-04-02", desktop: 97, mobile: 180 },
   { date: "2024-04-03", desktop: 167, mobile: 120 },
@@ -142,6 +136,7 @@ const chartConfig = {
 
 export function ChartAreaInteractive() {
   const isMobile = useIsMobile()
+  const [data, setData] = React.useState(fallbackData)
   const [timeRange, setTimeRange] = React.useState("90d")
 
   React.useEffect(() => {
@@ -150,7 +145,24 @@ export function ChartAreaInteractive() {
     }
   }, [isMobile])
 
-  const filteredData = chartData.filter((item) => {
+  // Fetch traffic from Supabase
+  React.useEffect(() => {
+    ;(async () => {
+      try {
+        const mod = await import('@/services/dashboard')
+        const days = timeRange === '7d' ? 7 : timeRange === '30d' ? 30 : 90
+        const rows = await mod.fetchTrafficDaily(days)
+        if (rows && rows.length) {
+          setData(rows.map(r => ({ date: r.date, desktop: r.desktop, mobile: r.mobile })))
+        }
+      } catch (e) {
+        console.warn('Chart using fallback data')
+        setData(fallbackData)
+      }
+    })()
+  }, [timeRange])
+
+  const filteredData = data.filter((item) => {
     const date = new Date(item.date)
     const referenceDate = new Date("2024-06-30")
     let daysToSubtract = 90

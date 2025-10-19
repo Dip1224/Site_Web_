@@ -1,204 +1,127 @@
-# Frontend - Business Manager
+# Frontend — Pro_Web (WorkEz)
 
-Frontend de la aplicación Business Manager desarrollado con React, TypeScript y Vite.
+Este README explica de forma detallada cada parte del frontend, su responsabilidad y cómo probar/desarrollar la aplicación. Está escrito en español y orientado a desarrolladores que trabajan sobre la landing/SPA principal.
 
-## 🚀 Tecnologías
+---
 
-- **React 18** - Biblioteca UI
-- **TypeScript** - Tipado estático
-- **Vite** - Build tool y dev server
-- **Tailwind CSS** - Framework CSS utility-first
-- **React Router** - Enrutamiento SPA
-- **Supabase** - Cliente para autenticación y base de datos
-- **React Hook Form** - Gestión de formularios
-- **Zod** - Validación de esquemas
-- **Lucide React** - Iconos modernos
+## Resumen del proyecto
+- Stack: React + TypeScript, Vite, Tailwind CSS.
+- Objetivo: Landing page animada con sistema de temas (claro/oscuro), partículas de fondo, componentes 3D (CometCard, CardFlip) y UI reutilizable.
 
-## 📁 Estructura
+---
 
-```
-src/
-├── components/          # Componentes reutilizables
-│   ├── Layout.tsx      # Layout principal de la app
-│   ├── Header.tsx      # Barra de navegación superior
-│   ├── Sidebar.tsx     # Menú lateral
-│   ├── ProtectedRoute.tsx  # HOC para rutas protegidas
-│   └── ClienteModal.tsx    # Modal para gestión de clientes
-├── pages/              # Páginas principales
-│   ├── Login.tsx       # Página de autenticación
-│   ├── Dashboard.tsx   # Dashboard principal
-│   └── Clients.tsx     # Gestión de clientes
-├── context/            # Context API
-│   └── AuthContext.tsx # Contexto de autenticación
-├── types/              # Definiciones TypeScript
-│   ├── index.ts        # Tipos principales
-│   └── database.types.ts # Tipos de base de datos
-├── lib/                # Configuraciones
-│   └── supabase.ts     # Cliente Supabase
-├── App.tsx             # Componente principal
-├── main.tsx            # Punto de entrada
-└── index.css           # Estilos globales
-```
+## Cómo ejecutar localmente
+1. Instalar dependencias
 
-## ⚡ Configuración
-
-### 1. Instalar dependencias
 ```bash
+cd frontend
 npm install
 ```
 
-### 2. Configurar variables de entorno
-```bash
-cp .env.example .env
-```
+2. Ejecutar en modo desarrollo
 
-Edita `.env` con tus credenciales de Supabase:
-```env
-VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
-VITE_SUPABASE_ANON_KEY=tu-clave-anonima
-```
-
-### 3. Ejecutar en desarrollo
 ```bash
 npm run dev
 ```
 
-La aplicación estará disponible en: http://localhost:3000
+3. Build de producción
 
-## 📦 Scripts Disponibles
-
-- `npm run dev` - Servidor de desarrollo
-- `npm run build` - Build para producción
-- `npm run preview` - Preview del build
-- `npm run lint` - Linter ESLint
-
-## 🏗️ Arquitectura
-
-### Autenticación
-- **Context API**: Gestión global del estado de autenticación
-- **Rutas protegidas**: HOC que verifica autenticación
-- **Supabase Auth**: Sistema de autenticación backend
-
-### Estado de la Aplicación
-- **React Context**: Para autenticación y estado global
-- **React useState/useEffect**: Para estado local de componentes
-- **Supabase Realtime**: Para sincronización en tiempo real
-
-### Navegación
-- **React Router v6**: Enrutamiento declarativo
-- **Navegación programática**: useNavigate hook
-- **Rutas anidadas**: Layout con outlet
-
-### Estilos
-- **Tailwind CSS**: Utility-first CSS framework
-- **Componentes personalizados**: Clases reutilizables en index.css
-- **Responsive Design**: Mobile-first approach
-- **Modo oscuro**: Preparado para implementar
-
-## 🎨 Sistema de Diseño
-
-### Colores Principales
-- **Primary**: Azul (#3b82f6)
-- **Secondary**: Gris (#6b7280)
-- **Success**: Verde (#10b981)
-- **Error**: Rojo (#ef4444)
-- **Warning**: Amarillo (#f59e0b)
-
-### Componentes Base
-- **Botones**: `.btn`, `.btn-primary`, `.btn-secondary`
-- **Formularios**: `.form-input`, `.form-label`
-- **Cards**: `.card` (definir según necesidad)
-- **Modals**: Componente ClienteModal como referencia
-
-### Breakpoints
-- **sm**: 640px
-- **md**: 768px
-- **lg**: 1024px
-- **xl**: 1280px
-- **2xl**: 1536px
-
-## 🔐 Seguridad
-
-### Autenticación
-- **JWT Tokens**: Manejados automáticamente por Supabase
-- **Refresh automático**: Renovación transparente de tokens
-- **Logout seguro**: Limpieza completa de sesión
-
-### Validaciones
-- **Frontend**: Validación con Zod y React Hook Form
-- **Sanitización**: Escape automático de JSX
-- **CSRF Protection**: Manejado por Supabase
-
-## 🚀 Despliegue
-
-### Build de producción
 ```bash
 npm run build
+npm run preview
 ```
 
-### Variables de entorno de producción
-```env
-VITE_SUPABASE_URL=https://tu-proyecto-prod.supabase.co
-VITE_SUPABASE_ANON_KEY=tu-clave-anonima-prod
-```
+La app se sirve normalmente en http://localhost:3000 (Vite puede cambiar el puerto si 3000 está en uso).
 
-### Plataformas recomendadas
-- **Vercel**: Deploy automático desde Git
-- **Netlify**: Deploy con build automático
-- **GitHub Pages**: Para demos estáticos
-- **Firebase Hosting**: Alternativa de Google
+---
 
-### Configuración para Vercel
-```json
-{
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite"
-}
-```
+## Estructura principal (`src/`)
 
-## 🧪 Testing
+Resumen de carpetas y archivos clave:
 
-### Configuración futura
-- **Vitest**: Test runner para Vite
-- **React Testing Library**: Testing de componentes
-- **Jest DOM**: Matchers adicionales
-- **Cypress**: Tests end-to-end
+- `App.tsx` — Orquesta la landing: fondos, header, secciones (home, servicios, nosotros, FAQ), y efectos (StarsBackground, Particles, GlowingEffect). Consume la paleta con `useThemeColors()`.
+- `main.tsx` — Punto de arranque que monta `<ThemeProvider>` y renderiza `<App />`.
+- `contexts/` — Contextos globales (Theme, Auth, Language).
+- `hooks/` — Hooks reutilizables, por ejemplo `useThemeColors` para obtener paletas dinámicas.
+- `components/` — Componentes UI y visuales (Header, Partículas, CometCard, CardFlip, ShimmerText, etc.).
+- `pages/` — Páginas o secciones como `LoginPage.tsx`.
+- `index.css` — Variables CSS, utilidades Tailwind personalizadas y estilos globales.
+- `tailwind.config.js` — Configuración de Tailwind (colores referenciando `var(--...)`).
 
-## 🔧 Desarrollo
+---
 
-### Agregar nueva página
-1. Crear componente en `src/pages/`
-2. Agregar ruta en `App.tsx`
-3. Actualizar navegación en `Sidebar.tsx`
+## Descripción detallada por parte
 
-### Agregar nuevo componente
-1. Crear archivo en `src/components/`
-2. Definir props con TypeScript
-3. Implementar estilos con Tailwind
-4. Documentar uso en comentarios
+### `src/App.tsx`
+- Función: punto central de la UI. Renderiza el layout, aplica la paleta, y agrega los efectos de fondo.
+- Importante: varias secciones utilizan `style={{ background: colors.mainBackground }}` o gradientes con `useThemeColors()`.
+- Contiene utilidades JS para scroll suave y animaciones de inicio.
 
-### Integrar nueva API
-1. Definir tipos en `src/types/`
-2. Crear funciones en `src/lib/`
-3. Implementar en componentes
-4. Manejar estados de loading/error
+### `src/contexts/ThemeContext.tsx`
+- Función: controla el tema (`light` | `dark`) y expone `isDark` y `toggleTheme()`.
+- Responsabilidad adicional recomendable: sincronizar variables CSS (`--background`, `--foreground`, `--primary`, `--border`, ...) en `:root` para que las clases de Tailwind que referencian `hsl(var(--...))` reaccionen al cambio de tema.
 
-## 📈 Performance
+### `src/contexts/AuthContext.tsx`
+- Función: gestión de autenticación (login, logout, user), persistencia y helpers para rutas protegidas.
 
-### Optimizaciones implementadas
-- **Code splitting**: Rutas lazy-loaded preparado
-- **Tree shaking**: Build optimizado con Vite
-- **Asset optimization**: Compresión automática
-- **Bundle analysis**: npm run build --analyze
+### `src/contexts/LanguageContext.tsx`
+- Función: control de idioma (ES/EN), `t()` para textos y `language` state.
 
-### Mejoras futuras
-- **React.memo**: Componentes memorizados
-- **useMemo/useCallback**: Optimización de hooks
-- **Lazy loading**: Componentes y rutas
-- **Service Workers**: Cache offline
+### `src/hooks/useThemeColors.ts`
+- Función: devuelve la paleta actual en forma de objeto (colores para mainBackground, overlayGradient, primaryGreen, accentGreen, foreground, background, border, textPrimary, gridColor, etc.).
+- Uso: los componentes que requieren colores dinámicos importan y usan este hook.
 
-## 🐛 Debugging
+### `src/components/Header.tsx`
+- Función: barra de navegación superior, control de idioma y toggle de tema.
+- Usa `useTheme()` y `useThemeColors()` para pintar botones y fondo del header.
+
+### Fondo y efectos
+- `StarsBackground.tsx` / `ui/stars-background-clean.tsx`: estrellas/partículas fijas en el fondo; usan `colors` para adaptarse al tema.
+- `Particles.tsx`: partículas interactivas (siguen el cursor o se mueven con parámetros configurable: quantity, size, speed).
+- `ui/meteors.tsx`: meteoritos animados (efecto visual adicional).
+
+### Componentes principales
+- `CometCard.tsx`: tarjeta con efecto 3D y movimiento tipo cometa; usa `framer-motion`.
+- `CardFlip.tsx`: tarjeta que gira (front/back) al hover.
+- `ShimmerText.tsx`: texto con efecto shimmer para títulos.
+- `GlowingEffect.tsx`: halo brillante reutilizable detrás de elementos.
+- `ui/*`: componentes básicos (Button, Input, Accordion, LynxLogo, etc.).
+
+### Páginas
+- `pages/LoginPage.tsx`: page/modal de login que utiliza gradientes y círculos de fondo según `useThemeColors()`.
+
+---
+
+## Estilos y theming
+
+- `index.css`: define variables CSS en `:root` y una sección `.dark` con valores alternos. También contiene utilidades y animaciones personalizadas.
+- `tailwind.config.js`: configurado para usar variables CSS (ej: `background: 'hsl(var(--background))'`). Asegúrate que `darkMode` esté en `class` si usas la clase `dark` en `document.documentElement`.
+
+Punto crítico: los componentes pueden usar tanto clases Tailwind (ej. `bg-white`) como estilos inline con `colors`. Si una parte del UI no cambia con el tema, comprueba:
+
+1. Si usa clases fijas como `bg-white` → cambiar a `bg-[hsl(var(--background))]` o usar inline con `colors.background`.
+2. Si `ThemeContext` no sincroniza variables CSS → sincronizar `--background`, `--foreground`, etc. en `document.documentElement.style`.
+
+---
+
+## Debugging rápido
+
+- Console logs: `useThemeColors()` tiene logs que indican `isDark` y la paleta aplicada.
+- DevTools: inspecciona `:root` y verifica variables CSS.
+- Prueba: alterna el toggle de tema y observa que `--background`, `--foreground` y `--primary` cambien.
+
+---
+
+## Sugerencias de mejora
+
+- Extraer paleta a `src/theme/palette.ts` y que `useThemeColors` y `ThemeContext` la consuman.
+- Añadir tests visuales (Cypress) que verifiquen que el tema se aplica correctamente.
+- Añadir un modo de desarrollo para togglear efectos de fondo (Particles, Stars) sin editar `App.tsx`.
+
+---
+
+Si quieres que adapte este README a `README.es.md` y `README.en.md` (español/inglés) o que lo reduzca a una versión corta para `README.md` raíz, lo hago ahora.
+
 
 ### Herramientas de desarrollo
 - **React DevTools**: Inspector de componentes

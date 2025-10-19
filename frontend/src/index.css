@@ -5,14 +5,15 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background:  0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 142 76% 36%;
-    --primary-foreground: 355.7 100% 97.3%;
+    /* Neutral primary (no neon) */
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
@@ -23,30 +24,49 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 142 76% 36%;
+    --ring: 0 0% 40%;
     --radius: 0.5rem;
+    /* Dashboard sidebar tokens */
+    --sidebar: 0 0% 98%;
+    --sidebar-foreground: 240 5.9% 10%;
+    --sidebar-primary: var(--primary);
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 240 5.9% 90%;
+    --sidebar-ring: 142 76% 36%;
+    /* Spacing scale base (used by dashboard header/width calc) */
+    --spacing: 0.25rem;
   }
  
   .dark {
-    --background: 240 10% 3.9%;
+    /* Dark theme tuned for high contrast */
+    --background: 220 13% 7%;
     --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
+    --card: 220 13% 10%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    --popover: 220 13% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 142 76% 36%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 240 3.7% 15.9%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 220 13% 12%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
+    --muted: 220 13% 12%;
+    --muted-foreground: 215 20% 70%;
+    --accent: 220 13% 12%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 142 76% 36%;
+    --border: 220 13% 18%;
+    --input: 220 13% 18%;
+    --ring: 0 0% 65%;
+    /* Dark mode sidebar tokens */
+    --sidebar: 220 13% 8%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: var(--primary);
+    --sidebar-accent: 220 13% 12%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 220 13% 18%;
+    --sidebar-ring: 0 0% 65%;
   }
 
   * {
@@ -55,7 +75,8 @@
 
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    /* Removed fixed background and color to let theme system handle it */
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--background));
   }
 }
 
@@ -124,22 +145,23 @@
     animation: cell-ripple var(--duration, 2000ms) ease-out infinite var(--delay, 0ms);
   }
 
-  /* Nueva clase para fondo muted */
+  /* Fondo muted basado en variables */
   .bg-muted {
-    background-color: hsl(210 40% 98%);
+    background-color: hsl(var(--muted));
   }
 
-  .dark .bg-muted {
-    background-color: hsl(210 40% 3%);
-  }
+  /* Theme-driven helper utilities */
+  .bg-card-10 { background-color: hsl(var(--card) / 0.10); }
+  .bg-card-20 { background-color: hsl(var(--card) / 0.20); }
+  .bg-card-40 { background-color: hsl(var(--card) / 0.40); }
+  .bg-foreground-80 { background-color: hsl(var(--foreground) / 0.80); }
+  .text-foreground { color: hsl(var(--foreground)); }
+  .text-card-foreground { color: hsl(var(--card-foreground)); }
+  .border-card { border-color: hsl(var(--border)); }
 
-  /* Clase para texto muted-foreground */
+  /* Texto muted-foreground basado en variables */
   .text-muted-foreground {
-    color: hsl(215.4 16.3% 46.9%);
-  }
-
-  .dark .text-muted-foreground {
-    color: hsl(215.4 16.3% 65.1%);
+    color: hsl(var(--muted-foreground));
   }
 
   /* Nueva unidad de altura svh */

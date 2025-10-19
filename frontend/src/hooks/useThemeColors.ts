@@ -1,104 +1,68 @@
+import { useMemo } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 
-export const useThemeColors = () => {
+// Fuente de verdad: variables CSS definidas en src/index.css
+// Sin efectos secundarios en :root para evitar parpadeos al cambiar de tema.
+export function useThemeColors() {
   const { isDark } = useTheme()
-  console.log('🎨 useThemeColors - isDark:', isDark)
-  console.log('🎨 Document has dark class:', document.documentElement.classList.contains('dark'))
-  
-  if (isDark) {
-    // Modo Oscuro - Nueva paleta profesional
-    return {
-      // Fondo principal - neutros oscuros
-      mainBackground: 'linear-gradient(135deg, #222a24 0%, #171c18 50%, #222a24 100%)',
-      
-      // Overlay con gradiente suave
-      overlayGradient: 'radial-gradient(ellipse at center, rgba(34, 42, 36, 0.1) 0%, rgba(23, 28, 24, 0.3) 100%)',
-      
-      // Colores primarios - nueva paleta sofisticada
-      primaryGreen: '#181E19',     // Primary - verde muy oscuro y elegante
-      lightGreen: '#8fa693',       // Primary Light - verde suave
-      darkGreen: '#010201',        // Primary Dark - casi negro
-      accentGreen: '#2f3a31',      // Primary Content - verde medio
-      
-      // Colores secundarios
-      secondary: '#181a1e',        // Secondary - azul oscuro sutil
-      secondaryLight: '#8f97a6',   // Secondary Light - gris azulado
-      secondaryDark: '#010102',    // Secondary Dark - casi negro azulado
-      secondaryContent: '#2f333a', // Secondary Content - gris medio
-      
-      // Texto y acentos - neutros oscuros
-      textPrimary: '#fbfcfb',      // Copy - blanco suave
-      textSecondary: '#d5ddd6',    // Copy Light - gris claro verdoso
-      textTertiary: '#9dafa0',     // Copy Lighter - gris medio verdoso
-      textAccent: '#fbfcfb',
-      
-      // Fondos y bordes - neutros oscuros
-      background: '#171c18',       // Background - verde muy oscuro
-      foreground: '#222a24',       // Foreground - verde oscuro
-      border: '#39463b',           // Border - verde grisáceo
-      
-      // Tarjetas y elementos
-      cardBorder: 'rgba(24, 30, 25, 0.4)',
-      cardShadow: '0 25px 50px -12px rgba(24, 30, 25, 0.25)',
-      cardShadowHover: '0 25px 50px -12px rgba(24, 30, 25, 0.4)',
-      
-      // Partículas y efectos
-      particle1: 'radial-gradient(circle, rgba(24, 30, 25, 0.2) 0%, transparent 70%)',
-      particle2: 'radial-gradient(circle, rgba(1, 2, 1, 0.15) 0%, transparent 70%)',
-      particle3: 'radial-gradient(circle, rgba(47, 58, 49, 0.1) 0%, transparent 70%)',
-      
-      // Grid de fondo
-      gridColor: 'rgba(24, 30, 25, 0.1)',
-      
-      // Colores de utilidad
-      success: '#181e18',          // Verde muy oscuro para éxito
-      successContent: '#8fa68f',   // Verde suave para contenido de éxito
-      warning: '#1e1e18',          // Amarillo muy oscuro para advertencia
-      warningContent: '#a6a68f',   // Amarillo suave para contenido
-      error: '#1e1818',            // Rojo muy oscuro para error
-      errorContent: '#a68f8f'      // Rojo suave para contenido de error
-    }
-  } else {
-     // ☀️ Modo Claro - Colores exactos del usuario
-    const lightColors = {
-      mainBackground: 'linear-gradient(135deg, #fbfbfb 0%, #eff1ef 50%, #fbfbfb 100%)',
-      overlayGradient: 'radial-gradient(ellipse at center, rgba(251,251,251,.10) 0%, rgba(239,241,239,.30) 100%)',
 
-      primaryGreen: '#3BE285',
-      lightGreen: '#A1F3C5',
-      darkGreen: '#2BCC70',
-      accentGreen: '#3BE285',
+  const tokens = useMemo(() => ({
+    background: 'hsl(var(--background))',
+    foreground: 'hsl(var(--foreground))',
+    card: 'hsl(var(--card))',
+    cardForeground: 'hsl(var(--card-foreground))',
+    border: 'hsl(var(--border))',
+    input: 'hsl(var(--input))',
+    primary: 'hsl(var(--primary))',
+    primaryForeground: 'hsl(var(--primary-foreground))',
+    secondary: 'hsl(var(--secondary))',
+    secondaryForeground: 'hsl(var(--secondary-foreground))',
+    muted: 'hsl(var(--muted))',
+    mutedForeground: 'hsl(var(--muted-foreground))',
+  }), [])
 
-      // Colores exactos proporcionados por el usuario
-      foreground: '#fbfbfb',    // Foreground exacto
-      background:  '#eff1ef',   // Background exacto
-      border:      '#dfe2dd',   // Border exacto
-
-      textPrimary:   '#262923', // Copy exacto
-      textSecondary: '#646e5e', // Copy Light exacto
-      textTertiary:  '#8a9584', // Copy Lighter exacto
-      textAccent:    '#262923',
-
-      cardBorder: 'rgba(35,41,35,.10)',
-      cardShadow: '0 10px 15px -3px rgba(35,41,35,.10), 0 4px 6px -2px rgba(35,41,35,.06)',
-      cardShadowHover: '0 20px 25px -5px rgba(35,41,35,.15), 0 10px 10px -5px rgba(35,41,35,.10)',
-
-      success: '#22c55e',
-      successContent: '#ffffff',
-      warning: '#f59e0b',
-      warningContent: '#ffffff',
-      error: '#ef4444',
-      errorContent: '#ffffff',
-      
-      // Propiedades adicionales necesarias
-      secondaryContent: '#eff1ef',
-      particle1: '#3BE285',
-      particle2: '#A1F3C5',
-      particle3: '#2BCC70',
-      gridColor: '#dfe2dd'
-    }
-    
-    console.log('🎨 Light mode colors applied:', lightColors);
-    return lightColors;
+  return {
+    // Base
+    background: tokens.background,
+    foreground: tokens.foreground,
+    border: tokens.border,
+    card: tokens.card,
+    cardForeground: tokens.cardForeground,
+    primary: tokens.primary,
+    primaryForeground: tokens.primaryForeground,
+    // Aliases esperados por la app
+    textPrimary: tokens.foreground,
+    textSecondary: tokens.mutedForeground,
+    textTertiary: tokens.mutedForeground,
+    cardBorder: tokens.border,
+    cardShadow: isDark ? '0 10px 30px rgba(0,0,0,0.35)' : '0 10px 30px rgba(0,0,0,0.10)',
+    // Compatibilidad con nombres existentes (sin verdes)
+    primaryGreen: tokens.primary,
+    accentGreen: tokens.muted,
+    darkGreen: 'hsl(0 0% 12%)',
+    lightGreen: 'hsl(0 0% 40%)',
+    // Otros
+    gridColor: tokens.border,
+    secondary: tokens.secondary,
+    secondaryLight: 'hsl(0 0% 60%)',
+    secondaryDark: 'hsl(0 0% 5%)',
+    success: 'hsl(140 45% 35%)',
+    successContent: 'hsl(0 0% 96%)',
+    warning: 'hsl(40 90% 40%)',
+    warningContent: 'hsl(0 0% 96%)',
+    error: 'hsl(0 70% 40%)',
+    errorContent: 'hsl(0 0% 96%)',
+    // Fondos decorativos (neutros)
+    mainBackground: isDark
+      ? 'linear-gradient(135deg, #0a0a0a 0%, #111113 50%, #0a0a0a 100%)'
+      : 'linear-gradient(135deg, #f6f6f6 0%, #efefef 45%, #e9e9e9 100%)',
+    overlayGradient: isDark
+      ? 'radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.35) 100%)'
+      : 'radial-gradient(1200px circle at 50% -200px, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.12) 45%, rgba(0,0,0,0.18) 85%)',
+    panelBg: isDark ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.65)',
+    isDark,
   }
 }
+
+export default null
+

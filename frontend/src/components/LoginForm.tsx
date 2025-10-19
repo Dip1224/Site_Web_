@@ -71,8 +71,8 @@ export function LoginForm({
                 <div 
                   className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg"
                   style={{
-                    background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`,
-                    boxShadow: `0 10px 15px -3px ${colors.primaryGreen}50`
+                    background: `linear-gradient(135deg, #1b1b1b 0%, #262626 100%)`,
+                    boxShadow: `0 10px 15px -3px rgba(0,0,0,0.5)`
                   }}
                 >
                   <LynxLogo size={32} />
@@ -89,8 +89,8 @@ export function LoginForm({
                     style={{ color: colors.textSecondary }}
                   >
                     {language === 'es' 
-                      ? 'Accede a tu cuenta de LynxTech' 
-                      : 'Login to your LynxTech account'
+                      ? 'Accede a tu cuenta de WorkEz' 
+                      : 'Login to your WorkEz account'
                     }
                   </p>
                 </div>
@@ -134,7 +134,7 @@ export function LoginForm({
                   <a
                     href="#"
                     className="text-sm underline-offset-2 hover:underline transition-colors duration-300"
-                    style={{ color: colors.primaryGreen }}
+                    style={{ color: colors.textSecondary }}
                     onClick={(e) => {
                       e.preventDefault()
                       alert(language === 'es' 
@@ -168,16 +168,16 @@ export function LoginForm({
                   className="w-full text-white font-semibold py-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg" 
                   disabled={isLoading}
                   style={{
-                    background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`,
-                    boxShadow: `0 10px 15px -3px ${colors.primaryGreen}40`
+                    background: `linear-gradient(135deg, #1f1f1f 0%, #2a2a2a 100%)`,
+                    boxShadow: `0 10px 15px -3px rgba(0,0,0,0.5)`
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = `linear-gradient(135deg, ${colors.darkGreen} 0%, ${colors.primaryGreen} 100%)`
-                    e.currentTarget.style.boxShadow = `0 15px 20px -3px ${colors.primaryGreen}60`
+                    e.currentTarget.style.background = `linear-gradient(135deg, #2a2a2a 0%, #333333 100%)`
+                    e.currentTarget.style.boxShadow = `0 15px 20px -3px rgba(0,0,0,0.6)`
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`
-                    e.currentTarget.style.boxShadow = `0 10px 15px -3px ${colors.primaryGreen}40`
+                    e.currentTarget.style.background = `linear-gradient(135deg, #1f1f1f 0%, #2a2a2a 100%)`
+                    e.currentTarget.style.boxShadow = `0 10px 15px -3px rgba(0,0,0,0.5)`
                   }}
                 >
                   {isLoading 
@@ -195,7 +195,7 @@ export function LoginForm({
                 <a 
                   href="#" 
                   className="underline font-medium transition-colors duration-300"
-                  style={{ color: colors.primaryGreen }}
+                  style={{ color: colors.textSecondary }}
                   onClick={(e) => {
                     e.preventDefault()
                     alert(language === 'es' ? 'Registro próximamente...' : 'Sign up coming soon...')
@@ -211,7 +211,7 @@ export function LoginForm({
           <div 
             className="relative hidden md:block"
             style={{
-              background: `linear-gradient(135deg, ${colors.primaryGreen}15 0%, ${colors.accentGreen}10 100%)`
+              background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`
             }}
           >
             <div className="absolute inset-0 h-full w-full flex items-center justify-center">
@@ -219,8 +219,8 @@ export function LoginForm({
                 <div 
                   className="w-32 h-32 mx-auto mb-6 rounded-3xl flex items-center justify-center shadow-2xl"
                   style={{
-                    background: `linear-gradient(135deg, ${colors.primaryGreen} 0%, ${colors.accentGreen} 100%)`,
-                    boxShadow: `0 25px 50px -12px ${colors.primaryGreen}50`
+                    background: `linear-gradient(135deg, #1b1b1b 0%, #262626 100%)`,
+                    boxShadow: `0 25px 50px -12px rgba(0,0,0,0.6)`
                   }}
                 >
                   <LynxLogo size={64} />
@@ -229,7 +229,7 @@ export function LoginForm({
                   className="text-4xl font-bold mb-3"
                   style={{ color: colors.textPrimary }}
                 >
-                  LynxTech
+                  WorkEz
                 </h3>
                 <p 
                   className="text-xl font-light"
@@ -251,14 +251,19 @@ export function LoginForm({
       {/* Footer */}
       <FieldDescription className="px-6 text-center text-xs" style={{ color: colors.textTertiary }}>
         {language === 'es' ? 'Al continuar, aceptas nuestros' : 'By clicking continue, you agree to our'}{' '}
-        <a href="#" className="underline" style={{ color: colors.primaryGreen }}>
+        <a href="#" className="underline" style={{ color: colors.textSecondary }}>
           {language === 'es' ? 'Términos de Servicio' : 'Terms of Service'}
         </a>{' '}
         {language === 'es' ? 'y' : 'and'}{' '}
-        <a href="#" className="underline" style={{ color: colors.primaryGreen }}>
+        <a href="#" className="underline" style={{ color: colors.textSecondary }}>
           {language === 'es' ? 'Política de Privacidad' : 'Privacy Policy'}
         </a>.
       </FieldDescription>
     </div>
   )
 }
+
+
+
+
+

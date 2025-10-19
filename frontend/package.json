@@ -1,7 +1,7 @@
 {
-  "name": "lynxtech-frontend",
+  "name": "workez-frontend",
   "version": "1.0.0",
-  "description": "LynxTech - Landing page con animaciones futuristas",
+  "description": "WorkEz - Landing page con animaciones futuristas",
   "type": "module",
   "private": true,
   "dependencies": {

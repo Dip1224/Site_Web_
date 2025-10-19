@@ -14,6 +14,14 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        // Paleta para layout con sidebar (dashboard)
+        sidebar: "hsl(var(--sidebar))",
+        'sidebar-foreground': "hsl(var(--sidebar-foreground))",
+        'sidebar-primary': "hsl(var(--sidebar-primary))",
+        'sidebar-accent': "hsl(var(--sidebar-accent))",
+        'sidebar-accent-foreground': "hsl(var(--sidebar-accent-foreground))",
+        'sidebar-border': "hsl(var(--sidebar-border))",
+        'sidebar-ring': "hsl(var(--sidebar-ring))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

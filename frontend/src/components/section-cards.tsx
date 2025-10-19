@@ -1,5 +1,5 @@
 import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
-
+import { useEffect, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import {
   Card,
@@ -11,18 +11,39 @@ import {
 } from '@/components/ui/card'
 
 export function SectionCards() {
+  const [cards, setCards] = useState<{ revenue: number; newCustomers: number; activeAccounts: number; growthRate: number } | null>(null)
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const mod = await import('@/services/dashboard')
+        const data = await mod.fetchDashboardCards()
+        if (data) {
+          setCards({
+            revenue: (data.total_revenue_cents || 0) / 100,
+            newCustomers: data.new_customers || 0,
+            activeAccounts: data.active_accounts || 0,
+            growthRate: data.growth_rate_pct || 0,
+          })
+        }
+      } catch (e) {
+        console.warn('SectionCards using fallback numbers')
+      }
+    })()
+  }, [])
+
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 sm:grid-cols-2 xl:grid-cols-4">
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Total Revenue</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            {cards ? `$${cards.revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '$1,250.00'}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
               <IconTrendingUp />
-              +12.5%
+              {cards ? `${cards.growthRate > 0 ? '+' : ''}${cards.growthRate.toFixed(1)}%` : '+12.5%'}
             </Badge>
           </CardAction>
         </CardHeader>
@@ -39,7 +60,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>New Customers</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+            {cards ? cards.newCustomers.toLocaleString() : '1,234'}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -61,7 +82,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Active Accounts</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            {cards ? cards.activeAccounts.toLocaleString() : '45,678'}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -81,12 +102,12 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Growth Rate</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            {cards ? `${cards.growthRate.toFixed(1)}%` : '4.5%'}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
               <IconTrendingUp />
-              +4.5%
+              {cards ? `${cards.growthRate.toFixed(1)}%` : '+4.5%'}
             </Badge>
           </CardAction>
         </CardHeader>
