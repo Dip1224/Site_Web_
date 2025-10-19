@@ -168,7 +168,7 @@ function StarsBackground({
           starColor={
             isDark
               ? colors.accentGreen ?? '#00FF00'
-              : colors.secondaryContent ?? '#CCCCCC'
+              : colors.textSecondary ?? '#CCCCCC'
           }
         />
       </motion.div>

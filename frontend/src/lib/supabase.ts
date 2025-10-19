@@ -18,8 +18,6 @@ export const supabase =
       persistSession: true,
       autoRefreshToken: String(autoRefresh).toLowerCase() !== 'false',
       detectSessionInUrl: true,
-      // Coordinate refresh across tabs to avoid duplicate refresh attempts
-      multiTab: String(multiTabEnv).toLowerCase() !== 'false',
     },
   })
 

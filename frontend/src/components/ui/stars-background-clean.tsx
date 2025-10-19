@@ -137,7 +137,7 @@ function StarsBackground({
             top: `${(star.y + 30) % 100}%`,
             width: `${star.size * 0.5}px`,
             height: `${star.size * 0.5}px`,
-            backgroundColor: isDark ? colors.accentGreen : colors.secondaryContent,
+            backgroundColor: isDark ? colors.accentGreen : colors.textSecondary,
           }}
           animate={{
             opacity: [0, 0.8, 0],

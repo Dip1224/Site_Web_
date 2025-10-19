@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IconCirclePlusFilled } from "@tabler/icons-react"
 import { toast } from 'sonner'
 
@@ -341,4 +341,3 @@ function PrepayMonths({ onDone, onBack }: { onDone: () => void; onBack: () => vo
 }
 
 export default QuickCreate
-

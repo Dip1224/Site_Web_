@@ -36,7 +36,7 @@ export function PopoverTrigger({ asChild, children }: { asChild?: boolean; child
   )
 }
 
-export function PopoverContent({ className = "", align, alignOffset, sideOffset, children }: { className?: string; align?: 'start'|'center'|'end'; alignOffset?: number; sideOffset?: number; children: React.ReactNode }) {
+export function PopoverContent({ className = "", align, alignOffset: _alignOffset, sideOffset, children }: { className?: string; align?: 'start'|'center'|'end'; alignOffset?: number; sideOffset?: number; children: React.ReactNode }) {
   const ctx = React.useContext(Ctx)!
   const [entered, setEntered] = React.useState(false)
   React.useEffect(() => { if (ctx.open) { const id = requestAnimationFrame(()=>setEntered(true)); return () => { cancelAnimationFrame(id); setEntered(false) } } }, [ctx.open])

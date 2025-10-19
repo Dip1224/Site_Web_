@@ -24,14 +24,15 @@ export const AnimatedThemeToggler = ({
     if (!buttonRef.current) return
 
     // Fallback if View Transitions are not supported
-    // @ts-expect-error - experimental API may not exist in TS lib
-    if (!document.startViewTransition) {
+    const startViewTransition = (document as any).startViewTransition as
+      | undefined
+      | ((cb: () => void) => { ready: Promise<void> })
+    if (!startViewTransition) {
       toggleTheme()
       return
     }
 
-    // @ts-expect-error - experimental API may not exist in TS lib
-    await document.startViewTransition(() => {
+    await startViewTransition(() => {
       flushSync(() => {
         toggleTheme()
       })
@@ -77,4 +78,3 @@ export const AnimatedThemeToggler = ({
 }
 
 export default AnimatedThemeToggler
-

@@ -5,7 +5,7 @@ function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms))
 }
 
-async function withAuthRetry<T>(fn: () => Promise<{ data: any; error: any }>, attempts = 2) {
+async function withAuthRetry(fn: () => PromiseLike<{ data: any; error: any }>, attempts = 2) {
   let last: any = null
   for (let i = 0; i < attempts; i++) {
     const { data, error } = await fn()
@@ -122,7 +122,7 @@ export type SectionRow = {
   reviewer: string
 }
 
-export async function fetchSections(proposalId?: string): Promise<SectionRow[]> {
+export async function fetchSections(_proposalId?: string): Promise<SectionRow[]> {
   await ensureSession()
   // If filtering by proposal is needed, switch to querying proposal_sections directly
   const { data, error } = await supabase.from('v_sections_with_reviewer').select('*')

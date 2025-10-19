@@ -89,8 +89,8 @@ const ChartTooltipContent = React.forwardRef<
       hideLabel = false,
       hideIndicator = false,
       label,
-      nameKey,
-      labelKey,
+      nameKey: _nameKey,
+      labelKey: _labelKey,
       // Do not spread unknown Tooltip props (e.g., cursor, wrapperStyle) to DOM
     }: any,
     ref
@@ -157,7 +157,7 @@ const ChartLegendContent = React.forwardRef<
   }
 >(
   (
-    { className, hideIcon = false, payload, verticalAlign = "bottom", nameKey },
+    { className, hideIcon = false, payload, verticalAlign: _verticalAlign = "bottom", nameKey: _nameKey },
     ref
   ) => {
     if (!payload?.length) {

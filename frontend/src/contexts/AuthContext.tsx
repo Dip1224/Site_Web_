@@ -40,7 +40,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     let isMounted = true
 
     const init = async () => {
-      const attempt = async (retry = false) => {
+      const attempt = async () => {
         try {
           const session = await ensureSession()
           if (!isMounted) return
@@ -60,7 +60,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
       }
 
-      attempt(false)
+      attempt()
     }
 
     init()
