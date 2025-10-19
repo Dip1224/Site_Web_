@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, ReactNode } from 'react';
+import { useRef, useEffect, type ReactNode } from 'react';
 
 interface GlowingEffectProps {
   children?: ReactNode;
@@ -40,7 +40,6 @@ export function GlowingEffect({
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
       const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
-      const maxDistance = Math.sqrt(centerX ** 2 + centerY ** 2);
       
       // Solo aplicar efecto si está dentro de la zona de proximidad
       if (distance <= proximity) {

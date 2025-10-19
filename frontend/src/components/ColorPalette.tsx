@@ -22,7 +22,7 @@ export const ColorPalette: React.FC = () => {
         { name: 'Secondary', value: colors.secondary },
         { name: 'Secondary Light', value: colors.secondaryLight },
         { name: 'Secondary Dark', value: colors.secondaryDark },
-        { name: 'Secondary Content', value: colors.secondaryContent }
+        { name: 'Secondary Content', value: colors.textSecondary }
       ]
     },
     {

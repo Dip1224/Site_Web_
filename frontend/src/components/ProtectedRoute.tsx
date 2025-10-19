@@ -20,20 +20,20 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   useEffect(() => {
     let cancelled = false
-    const run = async () => {
+    let disposer: undefined | (() => void)
+    ;(async () => {
       if (!isAuthenticated && !isLoading) {
         // Intento extra de preflight antes de permitir redirección
         try { await ensureSession() } catch {}
         if (!cancelled) {
           const t = setTimeout(() => setReadyToRedirect(true), 2000)
-          return () => clearTimeout(t)
+          disposer = () => clearTimeout(t)
         }
       } else {
         setReadyToRedirect(false)
       }
-    }
-    const cleanup = run()
-    return () => { cancelled = true; if (typeof cleanup === 'function') cleanup() }
+    })()
+    return () => { cancelled = true; if (disposer) disposer() }
   }, [isAuthenticated, isLoading])
 
   if (isLoading || isReauthing || (!isAuthenticated && !readyToRedirect)) {

@@ -2,12 +2,9 @@
 
 import * as React from "react"
 import {
-  IconCamera,
   IconChartBar,
   IconDashboard,
   IconDatabase,
-  IconFileAi,
-  IconFileDescription,
   IconFileWord,
   IconFolder,
   IconHelp,
@@ -43,36 +40,7 @@ const BASE_NAV = [
   { title: "Team", url: "/dashboard?section=team", icon: IconUsers },
 ] as const
 
-const CLOUD_DOCS = [
-  {
-    title: "Capture",
-    icon: IconCamera,
-    isActive: true,
-    url: "#",
-    items: [
-      { title: "Active Proposals", url: "#" },
-      { title: "Archived", url: "#" },
-    ],
-  },
-  {
-    title: "Proposal",
-    icon: IconFileDescription,
-    url: "#",
-    items: [
-      { title: "Active Proposals", url: "#" },
-      { title: "Archived", url: "#" },
-    ],
-  },
-  {
-    title: "Prompts",
-    icon: IconFileAi,
-    url: "#",
-    items: [
-      { title: "Active Proposals", url: "#" },
-      { title: "Archived", url: "#" },
-    ],
-  },
-] as const
+// Cloud docs nav (not used currently)
 
 const SECONDARY = [
   { title: "Configuración", url: "#", icon: IconSettings },

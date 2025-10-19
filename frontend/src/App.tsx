@@ -1007,11 +1007,11 @@ function App() {
                       href="#" 
                       className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
                       style={{
-                        backgroundColor: colors.secondaryContent
+                        backgroundColor: colors.textSecondary
                       }}
                       
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = colors.secondaryContent;
+                        e.currentTarget.style.backgroundColor = colors.textSecondary;
                       }}
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -1024,11 +1024,11 @@ function App() {
                       href="#" 
                       className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
                       style={{
-                        backgroundColor: colors.secondaryContent
+                        backgroundColor: colors.textSecondary
                       }}
                       
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = colors.secondaryContent;
+                        e.currentTarget.style.backgroundColor = colors.textSecondary;
                       }}
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
