@@ -24,15 +24,16 @@ export const AnimatedThemeToggler = ({
     if (!buttonRef.current) return
 
     // Fallback if View Transitions are not supported
-    const startViewTransition = (document as any).startViewTransition as
-      | undefined
-      | ((cb: () => void) => { ready: Promise<void> })
-    if (!startViewTransition) {
+    const d = document as any
+    const hasVT = typeof d.startViewTransition === 'function'
+
+    if (!hasVT) {
       toggleTheme()
       return
     }
 
-    await startViewTransition(() => {
+    // Call bound to document to avoid Illegal invocation
+    await (d.startViewTransition as (cb: () => void) => { ready: Promise<void> }).call(d, () => {
       flushSync(() => {
         toggleTheme()
       })

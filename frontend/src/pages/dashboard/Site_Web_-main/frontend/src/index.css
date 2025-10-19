@@ -1,0 +1,324 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background:  0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    /* Neutral primary (no neon) */
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 0 0% 40%;
+    --radius: 0.5rem;
+    /* Dashboard sidebar tokens */
+    --sidebar: 0 0% 98%;
+    --sidebar-foreground: 240 5.9% 10%;
+    --sidebar-primary: var(--primary);
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 240 5.9% 90%;
+    --sidebar-ring: 142 76% 36%;
+    /* Spacing scale base (used by dashboard header/width calc) */
+    --spacing: 0.25rem;
+  }
+ 
+  .dark {
+    /* Dark theme tuned for high contrast */
+    --background: 220 13% 7%;
+    --foreground: 0 0% 98%;
+    --card: 220 13% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 13% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 220 13% 12%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 220 13% 12%;
+    --muted-foreground: 215 20% 70%;
+    --accent: 220 13% 12%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 18%;
+    --input: 220 13% 18%;
+    --ring: 0 0% 65%;
+    /* Dark mode sidebar tokens */
+    --sidebar: 220 13% 8%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: var(--primary);
+    --sidebar-accent: 220 13% 12%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 220 13% 18%;
+    --sidebar-ring: 0 0% 65%;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--background));
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500;
+  }
+  
+  .btn-success {
+    @apply bg-green-600 text-white hover:bg-green-700 focus:ring-green-500;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6 border border-gray-200;
+  }
+  
+  .card-hover {
+    @apply card hover:shadow-lg transition-shadow duration-200;
+  }
+  
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+  
+  .sidebar-link {
+    @apply flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors;
+  }
+  
+  .sidebar-link-active {
+    @apply sidebar-link bg-blue-100 text-blue-700;
+  }
+  
+  .sidebar-link-inactive {
+    @apply sidebar-link text-gray-600 hover:bg-gray-100 hover:text-gray-900;
+  }
+  
+  .stat-card {
+    @apply bg-white rounded-lg shadow p-6 border border-gray-100;
+  }
+  
+  .gradient-bg {
+    @apply bg-gradient-to-br from-blue-50 to-indigo-100;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.10);
+  }
+  
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  /* Background Ripple Effect Animation */
+  .animate-cell-ripple {
+    animation: cell-ripple var(--duration, 2000ms) ease-out infinite var(--delay, 0ms);
+  }
+
+  /* Fondo muted basado en variables */
+  .bg-muted {
+    background-color: hsl(var(--muted));
+  }
+
+  /* Theme-driven helper utilities */
+  .bg-card-10 { background-color: hsl(var(--card) / 0.10); }
+  .bg-card-20 { background-color: hsl(var(--card) / 0.20); }
+  .bg-card-40 { background-color: hsl(var(--card) / 0.40); }
+  .bg-foreground-80 { background-color: hsl(var(--foreground) / 0.80); }
+  .text-foreground { color: hsl(var(--foreground)); }
+  .text-card-foreground { color: hsl(var(--card-foreground)); }
+  .border-card { border-color: hsl(var(--border)); }
+
+  /* Texto muted-foreground basado en variables */
+  .text-muted-foreground {
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Nueva unidad de altura svh */
+  .min-h-svh {
+    min-height: 100svh;
+  }
+
+  @supports not (height: 100svh) {
+    .min-h-svh {
+      min-height: 100vh;
+    }
+  }
+}
+
+/* Background Ripple Keyframes */
+@keyframes cell-ripple {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.95);
+  }
+  25% {
+    opacity: 0.7;
+    transform: scale(1.02);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  75% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(0.95);
+  }
+}
+
+/* Solo mantenemos la animación de pulso para elementos específicos */
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Estilos para CometCard 3D */
+.perspective-distant {
+  perspective: 1000px;
+}
+
+.transform-3d {
+  transform-style: preserve-3d;
+}
+
+/* Animación para CardFlip */
+@keyframes scale {
+  0% {
+    transform: scale(2);
+    opacity: 0;
+    box-shadow: 0px 0px 50px rgba(34, 197, 94, 0.5);
+  }
+  50% {
+    transform: translate(0px, -5px) scale(1);
+    opacity: 1;
+    box-shadow: 0px 8px 20px rgba(34, 197, 94, 0.5);
+  }
+  100% {
+    transform: translate(0px, 5px) scale(0.1);
+    opacity: 0;
+    box-shadow: 0px 10px 20px rgba(34, 197, 94, 0);
+  }
+}
+
+/* Animación suave para botones */
+@keyframes button-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+.smooth-scroll-button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.smooth-scroll-button:active {
+  animation: button-pulse 0.6s ease-out;
+}
+
+/* Animación para los meteoritos */
+@keyframes meteor {
+  0% {
+    transform: rotate(var(--angle)) translateX(0) translateY(0);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--angle)) translateX(-800px) translateY(400px);
+    opacity: 0;
+  }
+}
+
+.animate-meteor {
+  animation: meteor linear infinite;
+}
+
+/* Asegurar que los meteoritos sean visibles */
+.meteor-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}  /* Clase size-0.5 personalizada */
+  .size-0\.5 {
+    width: 0.125rem;
+    height: 0.125rem;
+  }
+
+  /* Animaciones para fade-in-up */
+  .animate-fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

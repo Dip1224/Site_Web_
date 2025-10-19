@@ -27,5 +27,10 @@
     }
   },
   "include": ["src"],
+  "exclude": [
+    // Excluir código de backend embebido dentro del frontend
+    "src/pages/dashboard/Site_Web_-main/backend",
+    "src/pages/dashboard/Site_Web_-main/backend/**"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

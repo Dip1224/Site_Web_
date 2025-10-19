@@ -723,7 +723,7 @@ function App() {
                     <div 
                       className="rounded-2xl p-8 shadow-lg border backdrop-blur-sm"
                       style={{
-                        backgroundColor: colors.foreground,
+                        backgroundColor: colors.panelBg,
                         borderColor: colors.border,
                         boxShadow: colors.cardShadow
                       }}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <style>
+      .bg{fill:#000000}
+      .fg{fill:#ffffff}
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="256" height="256" rx="40" ry="40"/>
+  <!-- Stylized WE monogram -->
+  <g transform="translate(32,40) scale(0.78)">
+    <!-- W -->
+    <path class="fg" d="M10,40 L40,176 L72,100 L104,176 L134,40 L114,40 L96,120 L72,68 L48,120 L30,40 Z"/>
+    <!-- E -->
+    <path class="fg" d="M154,40 L154,176 L236,176 L236,156 L174,156 L174,120 L228,120 L228,100 L174,100 L174,60 L236,60 L236,40 Z"/>
+  </g>
+</svg>
+

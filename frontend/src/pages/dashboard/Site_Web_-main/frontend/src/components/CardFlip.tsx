@@ -1,0 +1,198 @@
+"use client";
+
+/**
+ * @author: @dorian_baffier
+ * @description: Card Flip
+ * @version: 1.0.0
+ * @date: 2025-06-26
+ * @license: MIT
+ * @website: https://kokonutui.com
+ * @github: https://github.com/kokonut-labs/kokonutui
+ */
+
+import { useState } from "react";
+
+function cn(...classes: (string | undefined | false)[]): string {
+  return classes.filter(Boolean).join(' ');
+}
+
+export interface CardFlipProps {
+    title?: string;
+    subtitle?: string;
+    description?: string;
+    features?: string[];
+}
+
+export default function CardFlip({
+    title = "Design Systems",
+    subtitle = "Explore the fundamentals",
+    description = "Dive deep into the world of modern UI/UX design.",
+    features = ["UI/UX", "Modern Design", "Tailwind CSS", "Kokonut UI"],
+}: CardFlipProps) {
+    const [isFlipped, setIsFlipped] = useState(false);
+
+    return (
+        <div
+            className="relative w-full max-w-[280px] h-[320px] group [perspective:2000px]"
+            onMouseEnter={() => setIsFlipped(true)}
+            onMouseLeave={() => setIsFlipped(false)}
+        >
+            <div
+                className={cn(
+                    "relative w-full h-full",
+                    "[transform-style:preserve-3d]",
+                    "transition-all duration-700",
+                    isFlipped
+                        ? "[transform:rotateY(180deg)]"
+                        : "[transform:rotateY(0deg)]"
+                )}
+            >
+                {/* Front of card */}
+                <div
+                    className={cn(
+                        "absolute inset-0 w-full h-full",
+                        "[backface-visibility:hidden] [transform:rotateY(0deg)]",
+                        "overflow-hidden rounded-2xl",
+                        "bg-gradient-to-br from-green-50/80 via-slate-50/90 to-white dark:bg-zinc-900",
+                        "border border-green-200/60 dark:border-zinc-800/50",
+                        "shadow-lg shadow-green-100/50 dark:shadow-lg",
+                        "transition-all duration-700",
+                        "group-hover:shadow-xl group-hover:shadow-green-200/60 dark:group-hover:shadow-xl",
+                        isFlipped ? "opacity-0" : "opacity-100"
+                    )}
+                >
+                    <div className="relative h-full overflow-hidden bg-gradient-to-b from-green-50/40 via-slate-50/60 to-white/90 dark:from-zinc-900 dark:to-black">
+                        <div className="absolute inset-0 flex items-start justify-center pt-24">
+                            <div className="relative w-[200px] h-[100px] flex items-center justify-center">
+                                {[...Array(10)].map((_, i) => (
+                                    <div
+                                        key={i}
+                                        className={cn(
+                                            "absolute w-[50px] h-[50px]",
+                                            "rounded-[140px]",
+                                            "animate-[scale_3s_linear_infinite]",
+                                            "opacity-0",
+                                            "shadow-[0_0_50px_rgba(34,197,94,0.5)]",
+                                            "group-hover:animate-[scale_2s_linear_infinite]"
+                                        )}
+                                        style={{
+                                            animationDelay: `${i * 0.3}s`,
+                                        }}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 right-0 p-5">
+                        <div className="flex items-center justify-between gap-3">
+                            <div className="space-y-1.5">
+                                <h3 className="text-lg font-semibold text-slate-800 dark:text-white leading-snug tracking-tighter transition-all duration-500 ease-out-expo group-hover:translate-y-[-4px]">
+                                    {title}
+                                </h3>
+                                <p className="text-sm text-slate-600 dark:text-zinc-200 line-clamp-2 tracking-tight transition-all duration-500 ease-out-expo group-hover:translate-y-[-4px] delay-[50ms]">
+                                    {subtitle}
+                                </p>
+                            </div>
+                            <div className="relative group/icon">
+                                <div
+                                    className={cn(
+                                        "absolute inset-[-8px] rounded-lg transition-opacity duration-300",
+                                        "bg-gradient-to-br from-green-500/20 via-green-500/10 to-transparent"
+                                    )}
+                                />
+                                <svg className="relative z-10 w-4 h-4 text-green-500 transition-transform duration-300 group-hover/icon:scale-110 group-hover/icon:-rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Back of card */}
+                <div
+                    className={cn(
+                        "absolute inset-0 w-full h-full",
+                        "[backface-visibility:hidden] [transform:rotateY(180deg)]",
+                        "p-6 rounded-2xl",
+                        "bg-gradient-to-br from-green-50/80 via-slate-50/90 to-white dark:from-zinc-900 dark:to-black",
+                        "border border-green-200/60 dark:border-zinc-800",
+                        "shadow-lg shadow-green-100/50 dark:shadow-lg",
+                        "flex flex-col",
+                        "transition-all duration-700",
+                        "group-hover:shadow-xl group-hover:shadow-green-200/60 dark:group-hover:shadow-xl",
+                        !isFlipped ? "opacity-0" : "opacity-100"
+                    )}
+                >
+                    <div className="flex-1 space-y-6">
+                        <div className="space-y-2">
+                            <h3 className="text-lg font-semibold text-slate-800 dark:text-white leading-snug tracking-tight transition-all duration-500 ease-out-expo group-hover:translate-y-[-2px]">
+                                {title}
+                            </h3>
+                            <p className="text-sm text-slate-600 dark:text-zinc-400 tracking-tight transition-all duration-500 ease-out-expo group-hover:translate-y-[-2px] line-clamp-2">
+                                {description}
+                            </p>
+                        </div>
+
+                        <div className="space-y-2">
+                            {features.map((feature, index) => (
+                                <div
+                                    key={feature}
+                                    className="flex items-center gap-2 text-sm text-slate-700 dark:text-zinc-300 transition-all duration-500"
+                                    style={{
+                                        transform: isFlipped
+                                            ? "translateX(0)"
+                                            : "translateX(-10px)",
+                                        opacity: isFlipped ? 1 : 0,
+                                        transitionDelay: `${
+                                            index * 100 + 200
+                                        }ms`,
+                                    }}
+                                >
+                                    <svg className="w-3 h-3 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                    <span>{feature}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="pt-6 mt-6 border-t border-zinc-200 dark:border-zinc-800">
+                        <div
+                            className={cn(
+                                "group/start relative",
+                                "flex items-center justify-between",
+                                "p-3 -m-3 rounded-xl",
+                                "transition-all duration-300",
+                                "bg-gradient-to-r from-zinc-100 via-zinc-100 to-zinc-100",
+                                "dark:from-zinc-800 dark:via-zinc-800 dark:to-zinc-800",
+                                "hover:from-green-500/10 hover:from-0% hover:via-green-500/5 hover:via-100% hover:to-transparent hover:to-100%",
+                                "dark:hover:from-green-500/20 dark:hover:from-0% dark:hover:via-green-500/10 dark:hover:via-100% dark:hover:to-transparent dark:hover:to-100%",
+                                "hover:scale-[1.02] hover:cursor-pointer"
+                            )}
+                        >
+                            <span className="text-sm font-medium text-slate-800 dark:text-white transition-colors duration-300 group-hover/start:text-green-600 dark:group-hover/start:text-green-400">
+                                Conoce más
+                            </span>
+                            <div className="relative group/icon">
+                                <div
+                                    className={cn(
+                                        "absolute inset-[-6px] rounded-lg transition-all duration-300",
+                                        "bg-gradient-to-br from-green-500/20 via-green-500/10 to-transparent",
+                                        "opacity-0 group-hover/start:opacity-100 scale-90 group-hover/start:scale-100"
+                                    )}
+                                />
+                                <svg className="relative z-10 w-4 h-4 text-green-500 transition-all duration-300 group-hover/start:translate-x-0.5 group-hover/start:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    );
+}

@@ -23,6 +23,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@/components/ui/toggle-group'
+// dynamic import used below to allow code-splitting
 
 export const description = "An interactive area chart"
 
