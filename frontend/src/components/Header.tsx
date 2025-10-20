@@ -435,7 +435,7 @@ export const Header: React.FC = () => {
               </div>
 
               {/* Separador con más espacio */}
-              <div className={`w-px h-8 bg-gray-300 dark:bg-gray-600 transition-all duration-700 ease-out transform mx-2 ${
+              <div className={`hidden sm:block w-px h-8 bg-gray-300 dark:bg-gray-600 transition-all duration-700 ease-out transform mx-2 ${
                 isLoaded ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0'
               }`} style={{transitionDelay: '1400ms'}}></div>
 
@@ -506,7 +506,7 @@ export const Header: React.FC = () => {
                   // Usuario no autenticado - mostrar botón de login
                   <button 
                     onClick={() => navigate('/login')}
-                    className="px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 shadow-lg whitespace-nowrap min-w-[100px] text-center"
+                    className="px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-semibold text-white transition-all duration-300 shadow-lg whitespace-nowrap min-w-[90px] sm:min-w-[100px] text-center text-sm sm:text-base"
                     style={{
                       background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)',
                       boxShadow: '0 10px 15px -3px rgba(0,0,0,0.35)'
