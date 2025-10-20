@@ -10,11 +10,7 @@ import { AnimatedText } from './AnimatedText'
 import { getActiveSection } from '../utils/scrollUtils'
 import { useThemeColors } from '../hooks/useThemeColors'
 
-interface HeaderProps {
-  onMenuClick?: () => void
-}
-
-export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
+export const Header: React.FC = () => {
   const { isDark } = useTheme()
   const { language, setLanguage } = useLanguage()
   const { user, isAuthenticated, logout } = useAuth()
