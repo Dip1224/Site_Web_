@@ -156,7 +156,7 @@ export const Header: React.FC = () => {
                   <LynxLogo size={isMobile ? 28 : 36} className="flex-shrink-0 hover:scale-110 transition-transform duration-300" />
                 </div>
                 <div 
-                  className={`text-2xl font-bold transition-all duration-800 transform ${
+                  className={`hidden sm:block text-2xl font-bold transition-all duration-800 transform ${
                     isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
                   }`} 
                   style={{
@@ -577,6 +577,26 @@ export const Header: React.FC = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
+        </div>
+        {/* Controles: idioma y tema dentro del menú móvil */}
+        <div className="px-5 pb-3 flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setLanguage('es')}
+              className={`px-3 py-2 rounded-lg text-sm font-semibold border ${language === 'es' ? 'bg-black/5 dark:bg-white/10' : ''}`}
+              style={{ borderColor: colors.cardBorder }}
+            >ES</button>
+            <button
+              onClick={() => setLanguage('en')}
+              className={`px-3 py-2 rounded-lg text-sm font-semibold border ${language === 'en' ? 'bg-black/5 dark:bg-white/10' : ''}`}
+              style={{ borderColor: colors.cardBorder }}
+            >EN</button>
+          </div>
+          <AnimatedThemeToggler
+            className="ml-auto p-2 rounded-lg bg-white/40 dark:bg-white/10 backdrop-blur-xl border transition-all duration-300 w-[40px] h-[40px] flex items-center justify-center"
+            aria-label="Toggle theme"
+            style={{ borderColor: isDark ? '#ffffff60' : colors.cardBorder, color: isDark ? '#ffffff' : colors.textPrimary }}
+          />
         </div>
         <nav className="px-5 pb-6">
           <ul className="space-y-2">
