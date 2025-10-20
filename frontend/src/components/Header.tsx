@@ -360,8 +360,8 @@ export const Header: React.FC = () => {
 
             {/* Sección derecha: Controles y Botones separados */}
             <div className="flex items-center space-x-6 sm:space-x-8">
-              {/* Controles de idioma y tema */}
-              <div className={`flex items-center space-x-6 transition-all duration-800 ease-out transform ${
+              {/* Controles de idioma y tema (ocultos en móvil; disponibles en menú móvil) */}
+              <div className={`hidden sm:flex items-center space-x-6 transition-all duration-800 ease-out transform ${
                 isLoaded ? 'translate-x-0 opacity-100' : 'translate-x-12 opacity-0'
               }`} style={{transitionDelay: '1300ms'}}>
                 {/* Selector de idioma con hover mejorado */}
