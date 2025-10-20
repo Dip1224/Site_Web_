@@ -159,11 +159,11 @@ function App() {
           <Header />
 
           {/* Espaciado para el header flotante mÃ¡s grande */}
-          <div className="pt-40"></div>
+          <div className="pt-28 sm:pt-40"></div>
 
           <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
             {/* Main section with entrance animation */}
-            <section id="home" className="min-h-screen flex items-center justify-center -mt-20">
+            <section id="home" className="min-h-screen flex items-center justify-center -mt-10 sm:-mt-20">
               <AnimatedComponent animation="fadeInUp" className="text-center mb-16 relative max-w-6xl mx-auto">
                 <div className="absolute inset-0 backdrop-blur-3xl rounded-3xl border shadow-2xl" style={{
                   backgroundColor: colors.panelBg,
@@ -312,7 +312,7 @@ function App() {
                     className="rounded-3xl"
                   />
 
-                  <div className="relative z-10 p-12 rounded-3xl">
+                  <div className="relative z-10 p-6 md:p-12 rounded-3xl">
                     <div className="text-center mb-20">
                       <h2 className="text-5xl md:text-6xl font-bold mb-6" style={{ color: colors.textPrimary }}>
                         {t('servicesTitle')}
@@ -420,7 +420,7 @@ function App() {
                     className="rounded-3xl"
                   />
 
-                  <div className="relative z-10 p-12 rounded-3xl">
+                  <div className="relative z-10 p-6 md:p-12 rounded-3xl">
                     <div className="text-center mb-16">
                       <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: colors.textPrimary }}>
                         {t('aboutTitle')}
@@ -432,7 +432,7 @@ function App() {
 
                     {/* DescripciÃ³n principal */}
                 <div 
-                  className="backdrop-blur-xl rounded-3xl p-12 mb-16 text-center" 
+                  className="backdrop-blur-xl rounded-3xl p-6 md:p-12 mb-8 md:mb-16 text-center" 
                   style={{
                     backgroundColor: isDark ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.6)',
                     border: `1px solid ${colors.cardBorder}`
@@ -577,7 +577,7 @@ function App() {
                 {/* SecciÃ³n del equipo con logo */}
                 <div className="mt-16 text-center">
                   <div 
-                    className="backdrop-blur-xl rounded-3xl p-12" 
+                    className="backdrop-blur-xl rounded-3xl p-6 md:p-12" 
                     style={{
                       backgroundColor: isDark ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.4)',
                       border: `1px solid ${colors.cardBorder}`
@@ -798,7 +798,7 @@ function App() {
             <AnimatedComponent animation="bounceIn" trigger="scroll" delay={500}>
               <section id="contacto" className="py-20 relative overflow-hidden" style={{background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)'}}>
                 {/* Elementos de fondo decorativos */}
-                <div className="absolute inset-0 animate-pulse" style={{background: 'linear-gradient(to right, rgba(0,0,0,0.08), rgba(0,0,0,0.12))'}}></div>
+                <div className="hidden md:block absolute inset-0 animate-pulse" style={{background: 'linear-gradient(to right, rgba(0,0,0,0.08), rgba(0,0,0,0.12))'}}></div>
                 
                 {/* Glowing Effect para toda la secciÃ³n */}
                 <GlowingEffect
@@ -813,13 +813,13 @@ function App() {
                 />
                 
                 <AnimatedComponent animation="bounceIn" delay={500}>
-                  <div className="absolute top-10 left-10 w-20 h-20 bg-card/10 rounded-full"></div>
+                  <div className="hidden md:block absolute top-10 left-10 w-20 h-20 bg-card/10 rounded-full"></div>
                 </AnimatedComponent>
                 <AnimatedComponent animation="bounceIn" delay={1000}>
-                  <div className="absolute bottom-10 right-10 w-16 h-16 bg-card/10 rounded-full"></div>
+                  <div className="hidden md:block absolute bottom-10 right-10 w-16 h-16 bg-card/10 rounded-full"></div>
                 </AnimatedComponent>
                 <AnimatedComponent animation="bounceIn" delay={2000}>
-                  <div className="absolute top-1/2 left-1/4 w-12 h-12 bg-card/10 rounded-full"></div>
+                  <div className="hidden md:block absolute top-1/2 left-1/4 w-12 h-12 bg-card/10 rounded-full"></div>
                 </AnimatedComponent>
                 
                 <div className="relative z-10 max-w-7xl mx-auto px-6">

@@ -66,7 +66,7 @@ export default function LoginPage() {
       {/* Botón de volver al home */}
       <button
         onClick={() => navigate('/')}
-        className="absolute top-6 left-6 flex items-center gap-2 transition-all duration-300 z-20 px-4 py-2 rounded-lg backdrop-blur-sm"
+        className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2 transition-all duration-300 z-20 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg backdrop-blur-sm"
         style={{
           color: colors.textPrimary,
           backgroundColor: `${colors.foreground}80`,
