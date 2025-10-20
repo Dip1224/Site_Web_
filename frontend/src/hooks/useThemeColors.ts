@@ -1,9 +1,57 @@
 import { useMemo } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 
+// Tipado explícito de la paleta devuelta por el hook
+export interface ThemeColors {
+  // Base tokens
+  background: string
+  foreground: string
+  border: string
+  card: string
+  cardForeground: string
+  primary: string
+  primaryForeground: string
+  secondary: string
+  secondaryForeground?: string
+  muted?: string
+  mutedForeground?: string
+
+  // Aliases esperados por la app
+  textPrimary: string
+  textSecondary: string
+  textTertiary: string
+  cardBorder: string
+  cardShadow: string
+
+  // Compatibilidad con nombres existentes
+  primaryGreen: string
+  accentGreen: string
+  darkGreen: string
+  lightGreen: string
+
+  // Otros
+  gridColor: string
+  secondaryLight: string
+  secondaryDark: string
+  success: string
+  successContent: string
+  warning: string
+  warningContent: string
+  error: string
+  errorContent: string
+
+  // Fondos decorativos
+  mainBackground: string
+  overlayGradient: string
+  panelBg: string
+
+  // Estado
+  isDark: boolean
+}
+
 // Fuente de verdad: variables CSS definidas en src/index.css
 // Sin efectos secundarios en :root para evitar parpadeos al cambiar de tema.
-export function useThemeColors() {
+export function useThemeColors(): ThemeColors {
   const { isDark } = useTheme()
 
   const tokens = useMemo(() => ({
@@ -64,5 +112,4 @@ export function useThemeColors() {
   }
 }
 
-export default null
-
+// no default export

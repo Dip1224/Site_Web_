@@ -64,5 +64,4 @@ export function useThemeColors() {
   }
 }
 
-export default null
-
+// no default export
