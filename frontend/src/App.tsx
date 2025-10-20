@@ -188,14 +188,14 @@ function App() {
                   <AnimatedComponent animation="fadeInUp" trigger="scroll" delay={100}>
                     <div className="mb-8">
                       <div className="flex justify-center items-center mb-6 relative">
-                        <div className="w-24 h-24 rounded-2xl flex items-center justify-center shadow-lg mr-6" style={{
+                        <div className="w-16 h-16 md:w-24 md:h-24 rounded-2xl flex items-center justify-center shadow-lg mr-4 md:mr-6" style={{
                           background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)',
                           boxShadow: '0 10px 15px -3px rgba(0,0,0,0.35)'
                         }}>
-                          <LynxLogo size={48} />
+                          <LynxLogo size={40} />
                         </div>
                         <div className="text-left">
-                          <h1 className="text-3xl md:text-4xl font-bold" style={{color: isDark ? '#fff' : '#181e19'}}>WorkEz</h1>
+                          <h1 className="text-2xl md:text-4xl font-bold" style={{color: isDark ? '#fff' : '#181e19'}}>WorkEz</h1>
                         </div>
                       </div>
                     </div>

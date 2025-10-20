@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../contexts/ThemeContext'
 import { AnimatedThemeToggler } from './ui/AnimatedThemeToggler'
+import { useIsMobile } from '../hooks/use-mobile'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useAuth } from '../contexts/AuthContext'
 import { LynxLogo } from './ui/LynxLogo'
@@ -19,6 +20,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const { user, isAuthenticated, logout } = useAuth()
   const colors = useThemeColors()
   const navigate = useNavigate()
+  const isMobile = useIsMobile()
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
@@ -125,7 +127,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
       {/* Contenedor flotante con glassmorphism y animaciones mejoradas */}
       <div className="max-w-[1400px] mx-auto">
         <div 
-          className={`bg-white/40 dark:bg-black/40 backdrop-blur-3xl border-2 rounded-3xl shadow-2xl px-4 sm:px-8 lg:px-16 py-4 sm:py-6 lg:py-8 transition-all duration-1000 ease-out transform hover:scale-105 ${
+          className={`bg-white/40 dark:bg-black/40 backdrop-blur-xl sm:backdrop-blur-3xl border sm:border-2 rounded-2xl sm:rounded-3xl shadow-2xl px-3 sm:px-8 lg:px-16 py-3 sm:py-6 lg:py-8 transition-all duration-1000 ease-out transform sm:hover:scale-105 ${
             isLoaded ? 'scale-100 opacity-100 translate-y-0' : 'scale-90 opacity-0 translate-y-12'
           }`}
           style={{
@@ -135,7 +137,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           }}>
           <div className="flex justify-between items-center w-full">
             {/* Sección izquierda: Logo + Navegación */}
-            <div className="flex items-center space-x-4 sm:space-x-8 lg:space-x-16">
+            <div className="flex items-center space-x-3 sm:space-x-8 lg:space-x-16">
               {/* Logo con animación mejorada */}
               <div className={`flex items-center space-x-6 transition-all duration-1000 ease-out transform ${
                 isLoaded ? 'translate-x-0 opacity-100 scale-100' : '-translate-x-16 opacity-0 scale-75'
@@ -143,7 +145,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 <div className={`transition-all duration-500 transform ${
                   isLoaded ? 'rotate-0' : '-rotate-45'
                 }`} style={{transitionDelay: '300ms'}}>
-                  <LynxLogo size={36} className="flex-shrink-0 hover:scale-110 transition-transform duration-300" />
+                  <LynxLogo size={isMobile ? 28 : 36} className="flex-shrink-0 hover:scale-110 transition-transform duration-300" />
                 </div>
                 <div 
                   className={`text-2xl font-bold transition-all duration-800 transform ${
@@ -349,7 +351,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             </div>
 
             {/* Sección derecha: Controles y Botones separados */}
-            <div className="flex items-center space-x-8">
+            <div className="flex items-center space-x-6 sm:space-x-8">
               {/* Controles de idioma y tema */}
               <div className={`flex items-center space-x-6 transition-all duration-800 ease-out transform ${
                 isLoaded ? 'translate-x-0 opacity-100' : 'translate-x-12 opacity-0'
@@ -361,7 +363,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                   onMouseLeave={handleLanguageMenuLeave}
                 >
                   <button 
-                    className="flex items-center justify-center space-x-2 bg-white/40 dark:bg-white/10 backdrop-blur-xl rounded-lg px-4 py-2.5 border-2 group-hover:bg-white/60 dark:group-hover:bg-white/20 transition-all duration-300 w-[85px]"
+                    className="flex items-center justify-center space-x-2 bg-white/40 dark:bg-white/10 backdrop-blur-xl rounded-lg px-3 py-2 sm:px-4 sm:py-2.5 border group-hover:bg-white/60 dark:group-hover:bg-white/20 transition-all duration-300 w-[76px] sm:w-[85px]"
                     style={{borderColor: isDark ? '#ffffff60' : colors.cardBorder}}
                   >
                     <span className="text-sm font-semibold" style={{color: isDark ? '#ffffff' : colors.textPrimary}}>
@@ -418,7 +420,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
                 {/* Theme Toggle with animated view transition */}
                 <AnimatedThemeToggler
-                  className="p-2.5 rounded-lg bg-white/40 dark:bg-white/10 backdrop-blur-xl border-2 hover:bg-white/60 dark:hover:bg-white/20 transition-all duration-300 w-[44px] h-[44px] flex items-center justify-center"
+                  className="p-2 rounded-lg bg-white/40 dark:bg-white/10 backdrop-blur-xl border hover:bg-white/60 dark:hover:bg-white/20 transition-all duration-300 w-[40px] h-[40px] sm:w-[44px] sm:h-[44px] flex items-center justify-center"
                   aria-label="Toggle theme"
                   style={{borderColor: isDark ? '#ffffff60' : colors.cardBorder, color: isDark ? '#ffffff' : colors.textPrimary}}
                 />
