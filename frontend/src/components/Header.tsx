@@ -27,6 +27,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const [showLanguageMenu, setShowLanguageMenu] = useState(false)
   const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null)
   const [activeSection, setActiveSection] = useState('inicio')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   // Funciones para manejar el hover con delay
   const handleLanguageMenuEnter = () => {
@@ -57,6 +58,16 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
       }
     }
   }, [])
+
+  // Bloquear scroll de fondo cuando el menú móvil está abierto
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [isMobileMenuOpen])
 
 
 
@@ -119,6 +130,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   }, [])
 
   return (
+    <>
     <header className={`fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-4 sm:py-6 transition-all duration-500 ease-out ${
       isVisible ? 'translate-y-0' : '-translate-y-full'
     } ${
@@ -519,7 +531,9 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
               {/* Mobile Menu Button */}
               <button
-                onClick={onMenuClick}
+                onClick={() => setIsMobileMenuOpen(true)}
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-menu"
                 className={`lg:hidden p-2.5 rounded-lg bg-white/30 dark:bg-black/30 backdrop-blur-xl border hover:bg-white/40 transition-all duration-300 w-[44px] h-[44px] flex items-center justify-center ${ 
                   isLoaded ? 'opacity-100' : 'opacity-0'
                 }`} 
@@ -538,5 +552,109 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         </div>
       </div>
     </header>
+    {/* Mobile Menu Overlay */}
+    <div
+      id="mobile-menu"
+      className={`${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'} lg:hidden fixed inset-0 z-[60] transition-opacity duration-300`}
+    >
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/50"
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+      {/* Panel */}
+      <div
+        className={`absolute top-0 left-0 right-0 bg-white dark:bg-black rounded-b-2xl shadow-2xl border-b ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'} transition-transform duration-300`}
+        style={{ borderColor: colors.cardBorder }}
+      >
+        <div className="px-5 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <LynxLogo size={24} />
+            <span className="font-bold text-lg" style={{ color: isDark ? '#fff' : '#181E19' }}>WorkEz</span>
+          </div>
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="p-2 rounded-lg bg-black/5 dark:bg-white/10"
+            aria-label="Cerrar menú"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <nav className="px-5 pb-6">
+          <ul className="space-y-2">
+            <li>
+              <a
+                href="#inicio"
+                className="block w-full px-4 py-3 rounded-xl font-semibold bg-black/5 dark:bg-white/10"
+                onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); setIsMobileMenuOpen(false) }}
+              >Inicio</a>
+            </li>
+            <li>
+              <a
+                href="#servicios"
+                className="block w-full px-4 py-3 rounded-xl font-semibold hover:bg-black/5 dark:hover:bg-white/10"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const el = document.getElementById('servicios');
+                  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.scrollBy({ top: -120, left: 0, behavior: 'smooth' }); }
+                  setIsMobileMenuOpen(false)
+                }}
+              >Servicios</a>
+            </li>
+            <li>
+              <a
+                href="#nosotros"
+                className="block w-full px-4 py-3 rounded-xl font-semibold hover:bg-black/5 dark:hover:bg-white/10"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const el = document.getElementById('nosotros');
+                  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.scrollBy({ top: -120, left: 0, behavior: 'smooth' }); }
+                  setIsMobileMenuOpen(false)
+                }}
+              >Nosotros</a>
+            </li>
+            <li>
+              <a
+                href="#faq"
+                className="block w-full px-4 py-3 rounded-xl font-semibold hover:bg-black/5 dark:hover:bg-white/10"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const el = document.getElementById('faq');
+                  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.scrollBy({ top: -120, left: 0, behavior: 'smooth' }); }
+                  setIsMobileMenuOpen(false)
+                }}
+              >FAQ</a>
+            </li>
+            <li>
+              <a
+                href="#contacto"
+                className="block w-full px-4 py-3 rounded-xl font-semibold hover:bg-black/5 dark:hover:bg-white/10"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const el = document.getElementById('contacto');
+                  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.scrollBy({ top: -120, left: 0, behavior: 'smooth' }); }
+                  setIsMobileMenuOpen(false)
+                }}
+              >Contacto</a>
+            </li>
+          </ul>
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <button
+              onClick={() => { navigate('/login'); setIsMobileMenuOpen(false) }}
+              className="px-4 py-3 rounded-xl font-semibold text-white"
+              style={{ background: 'linear-gradient(135deg, #1b1f1d 0%, #0f1412 100%)' }}
+            >Login</button>
+            <button
+              onClick={() => { navigate('/dashboard'); setIsMobileMenuOpen(false) }}
+              className="px-4 py-3 rounded-xl font-semibold border"
+              style={{ borderColor: colors.cardBorder }}
+            >Dashboard</button>
+          </div>
+        </nav>
+      </div>
+    </div>
+    </>
   )
 }

@@ -205,7 +205,7 @@ function App() {
                   <AnimatedComponent animation="fadeInUp" trigger="scroll" delay={300}>
                     <div className="mb-8">
                       <h1 
-                        className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight text-center"
+                        className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-center"
                         style={{ 
                           color: colors.textPrimary,
                           textShadow: isDark ? '0 2px 10px rgba(0,0,0,0.5)' : '0 2px 10px rgba(0,0,0,0.1)'
@@ -217,14 +217,14 @@ function App() {
                   </AnimatedComponent>
                   
                   <AnimatedComponent animation="fadeInUp" trigger="scroll" delay={500}>
-                  <p className="text-xl md:text-2xl mb-12 max-w-4xl mx-auto leading-relaxed font-light text-center" style={{ color: colors.textSecondary }}>
+                  <p className="text-base sm:text-xl md:text-2xl mb-8 md:mb-12 max-w-4xl mx-auto leading-relaxed font-light text-center" style={{ color: colors.textSecondary }}>
                     {t('subtitle')}
                   </p>
                   </AnimatedComponent>
                   
                   {/* Botones principales actualizados */}
                   <AnimatedComponent animation="scaleIn" trigger="scroll" delay={900}>
-                  <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
                     {/* BotÃ³n principal - Ver membresÃ­as */}
                     <button 
                       onClick={(e) => {
@@ -232,7 +232,7 @@ function App() {
                         addClickPulse(e)
                         setTimeout(() => smoothScrollTo('servicios', 100), 200)
                       }}
-                      className="group relative text-white px-12 py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-2xl hover:scale-105 border overflow-hidden transform smooth-scroll-button"
+                      className="group relative text-white px-8 py-3 sm:px-12 sm:py-4 rounded-2xl font-bold text-base sm:text-lg transition-all duration-300 shadow-2xl hover:scale-105 border overflow-hidden transform smooth-scroll-button"
                       style={{
                         background: 'linear-gradient(to right, #1b1f1d, #0f1412)',
                         boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
@@ -262,7 +262,7 @@ function App() {
                         addClickPulse(e)
                         setTimeout(() => smoothScrollTo('contacto', 80), 200)
                       }}
-                      className="group relative px-12 py-4 rounded-2xl font-bold text-lg transition-all duration-300 hover:scale-105 border-2 overflow-hidden transform text-white smooth-scroll-button"
+                      className="group relative px-8 py-3 sm:px-12 sm:py-4 rounded-2xl font-bold text-base sm:text-lg transition-all duration-300 hover:scale-105 border-2 overflow-hidden transform text-white smooth-scroll-button"
                       style={{
                         borderColor: colors.cardBorder,
                         background: 'rgba(255, 255, 255, 0.1)',
