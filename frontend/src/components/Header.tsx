@@ -117,7 +117,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   }, [])
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 px-6 py-8 transition-all duration-500 ease-out ${
+    <header className={`fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-4 sm:py-6 transition-all duration-500 ease-out ${
       isVisible ? 'translate-y-0' : '-translate-y-full'
     } ${
       isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-16'
@@ -125,7 +125,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
       {/* Contenedor flotante con glassmorphism y animaciones mejoradas */}
       <div className="max-w-[1400px] mx-auto">
         <div 
-          className={`bg-white/40 dark:bg-black/40 backdrop-blur-3xl border-2 rounded-3xl shadow-2xl px-16 py-8 transition-all duration-1000 ease-out transform hover:scale-105 ${
+          className={`bg-white/40 dark:bg-black/40 backdrop-blur-3xl border-2 rounded-3xl shadow-2xl px-4 sm:px-8 lg:px-16 py-4 sm:py-6 lg:py-8 transition-all duration-1000 ease-out transform hover:scale-105 ${
             isLoaded ? 'scale-100 opacity-100 translate-y-0' : 'scale-90 opacity-0 translate-y-12'
           }`}
           style={{
@@ -135,7 +135,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           }}>
           <div className="flex justify-between items-center w-full">
             {/* Sección izquierda: Logo + Navegación */}
-            <div className="flex items-center space-x-16">
+            <div className="flex items-center space-x-4 sm:space-x-8 lg:space-x-16">
               {/* Logo con animación mejorada */}
               <div className={`flex items-center space-x-6 transition-all duration-1000 ease-out transform ${
                 isLoaded ? 'translate-x-0 opacity-100 scale-100' : '-translate-x-16 opacity-0 scale-75'

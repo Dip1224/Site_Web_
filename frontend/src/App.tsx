@@ -9,6 +9,7 @@ import { GlowingEffect } from './components/GlowingEffect'
 import { LynxLogo } from './components/ui/LynxLogo'
 import { Particles } from '@/components/ui/particles'
 import { SmoothCursor } from '@/components/ui/smooth-cursor'
+import { useIsMobile } from './hooks/use-mobile'
 import { CometCard } from './components/CometCard'
 import CardFlip from './components/CardFlip'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './components/ui/accordion'
@@ -64,6 +65,7 @@ function App() {
   const { isDark } = useTheme()
   const { t, language } = useLanguage()
   const colors = useThemeColors()
+  const isMobile = useIsMobile()
   
   // DEBUG deshabilitado para producciÃ³n
 
@@ -133,15 +135,17 @@ function App() {
         
         {/* Stars background removed as requested */}
         
-        {/* Interactive Particles Background */}
-        <Particles
-          className="absolute inset-0 z-[5]"
-          quantity={120}
-          staticity={50}
-          ease={60}
-          size={0.8}
-          color={isDark ? '#FFFFFF' : '#111111'}
-        />
+        {/* Interactive Particles Background (disabled on mobile) */}
+        {!isMobile && (
+          <Particles
+            className="absolute inset-0 z-[5]"
+            quantity={120}
+            staticity={50}
+            ease={60}
+            size={0.8}
+            color={isDark ? '#FFFFFF' : '#111111'}
+          />
+        )}
         
         {/* Grid de fondo tech con verde suave */}
         {/* grid eliminado */}
@@ -157,7 +161,7 @@ function App() {
           {/* Espaciado para el header flotante mÃ¡s grande */}
           <div className="pt-40"></div>
 
-          <main className="max-w-7xl mx-auto px-6 py-16">
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
             {/* Main section with entrance animation */}
             <section id="home" className="min-h-screen flex items-center justify-center -mt-20">
               <AnimatedComponent animation="fadeInUp" className="text-center mb-16 relative max-w-6xl mx-auto">
@@ -179,7 +183,7 @@ function App() {
                   className="rounded-3xl"
                 />
                 
-                <div className="relative z-10 p-12 rounded-3xl">
+                <div className="relative z-10 p-6 md:p-12 rounded-3xl">
                   {/* Logo and brand, more prominent */}
                   <AnimatedComponent animation="fadeInUp" trigger="scroll" delay={100}>
                     <div className="mb-8">
@@ -288,7 +292,7 @@ function App() {
 
             {/* SecciÃ³n de Servicios - Nuestras Soluciones Digitales */}
             <AnimatedComponent animation="slideInLeft" trigger="scroll" delay={200}>
-              <section id="servicios" className="py-24" style={{background: `linear-gradient(to bottom, ${colors.background}20, transparent)`}}>
+            <section id="servicios" className="py-12 md:py-24" style={{background: `linear-gradient(to bottom, ${colors.background}20, transparent)`}}>
                 <div className="max-w-7xl mx-auto px-6 relative">
                   <div className="absolute inset-0 backdrop-blur-3xl rounded-3xl border shadow-2xl" style={{
                     backgroundColor: colors.panelBg,
@@ -1068,7 +1072,7 @@ function App() {
               </div>
             </div>
           </footer>
-          <SmoothCursor />
+          {!isMobile && <SmoothCursor />}
         </div>
       </div>
 
