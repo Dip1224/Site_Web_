@@ -16,7 +16,9 @@ export default function LoginPage() {
       className="flex min-h-svh flex-col items-center justify-center p-6 md:p-10 relative overflow-hidden"
       style={{
         background: isMobile
-          ? "linear-gradient(180deg, #EBF8FF 0%, #FFFFFF 100%)"
+          ? (colors.isDark
+              ? colors.mainBackground
+              : "linear-gradient(180deg, #EBF8FF 0%, #FFFFFF 100%)")
           : colors.mainBackground,
       }}
     >
@@ -68,19 +70,19 @@ export default function LoginPage() {
       {/* Botón de volver al home */}
       <button
         onClick={() => navigate('/')}
-        className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2 transition-all duration-300 z-20 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg backdrop-blur-sm"
+        className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2 transition-all duration-300 z-20 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg backdrop-blur-sm shadow-sm"
         style={{
-          color: colors.textPrimary,
-          backgroundColor: `${colors.foreground}80`,
-          border: `1px solid ${colors.border}`
+          color: colors.isDark ? 'rgba(255,255,255,0.9)' : 'rgba(15,23,42,0.85)',
+          backgroundColor: colors.isDark ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.75)',
+          border: `1px solid ${colors.isDark ? 'rgba(255,255,255,0.14)' : 'rgba(15,23,42,0.12)'}`
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = `${colors.primaryGreen}20`
-          e.currentTarget.style.borderColor = colors.primaryGreen
+          e.currentTarget.style.backgroundColor = colors.isDark ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.95)'
+          e.currentTarget.style.borderColor = colors.isDark ? 'rgba(255,255,255,0.28)' : 'rgba(15,23,42,0.2)'
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = `${colors.foreground}80`
-          e.currentTarget.style.borderColor = colors.border
+          e.currentTarget.style.backgroundColor = colors.isDark ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.75)'
+          e.currentTarget.style.borderColor = colors.isDark ? 'rgba(255,255,255,0.14)' : 'rgba(15,23,42,0.12)'
         }}
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

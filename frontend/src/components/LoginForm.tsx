@@ -22,6 +22,7 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { login } = useAuth()
   const { language } = useLanguage()
@@ -178,26 +179,40 @@ export function LoginForm({
                     {language === 'es' ? '¿Olvidaste tu contraseña?' : 'Forgot your password?'}
                   </a>
                 </div>
-                <Input 
-                  id="password" 
-                  type="password" 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required 
-                  className={cn(
-                    "mt-1 transition-all duration-300",
-                    isMobile ? "bg-white/60 backdrop-blur-sm border-0 border-b-2 border-slate-300 rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none focus:border-sky-500 placeholder:text-slate-400" : ""
-                  )}
-                  style={
-                    isMobile
-                      ? undefined
-                      : {
-                          backgroundColor: colors.background,
-                          borderColor: colors.border,
-                          color: colors.textPrimary,
-                        }
-                  }
-                />
+                <div className="relative">
+                  <Input 
+                    id="password" 
+                    type={showPassword ? 'text' : 'password'} 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required 
+                    className={cn(
+                      "mt-1 pr-10 transition-all duration-300",
+                      isMobile ? "bg-white/60 backdrop-blur-sm border-0 border-b-2 border-slate-300 rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none focus:border-sky-500 placeholder:text-slate-400" : ""
+                    )}
+                    style={
+                      isMobile
+                        ? undefined
+                        : {
+                            backgroundColor: colors.background,
+                            borderColor: colors.border,
+                            color: colors.textPrimary,
+                          }
+                    }
+                  />
+                  <button
+                    type="button"
+                    aria-label={showPassword ? (language === 'es' ? 'Ocultar contraseña' : 'Hide password') : (language === 'es' ? 'Mostrar contraseña' : 'Show password')}
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 px-3 py-2 text-slate-500 hover:text-slate-700"
+                  >
+                    {showPassword ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><path d="M3 3l18 18" strokeLinecap="round" strokeLinejoin="round"/><path d="M10.58 10.58a2 2 0 102.83 2.83"/><path d="M16.68 16.68A10.94 10.94 0 0112 18c-5 0-9-4-9-6a10.94 10.94 0 013.22-4.79"/><path d="M14.12 9.88A3 3 0 009.88 14.12"/><path d="M17.94 13.12A10.94 10.94 0 0021 12c0-2-4-6-9-6a10.94 10.94 0 00-3.17.46"/></svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                    )}
+                  </button>
+                </div>
               </Field>
 
               {/* Botón Login */}
@@ -209,11 +224,12 @@ export function LoginForm({
                     isMobile ? "text-white hover:-translate-y-0.5" : "text-white hover:scale-105"
                   )}
                   disabled={isLoading}
-                  style={
-                    isMobile
-                      ? { background: "linear-gradient(180deg, #3B82F6 0%, #2563EB 100%)", boxShadow: "0 14px 30px rgba(37, 99, 235, 0.35)" }
-                      : { background: `linear-gradient(135deg, #1f1f1f 0%, #2a2a2a 100%)`, boxShadow: `0 10px 15px -3px rgba(0,0,0,0.5)` }
-                  }
+                  style={{
+                    background: (colors.isDark
+                      ? "linear-gradient(180deg, #2563EB 0%, #1D4ED8 100%)"
+                      : "linear-gradient(180deg, #3B82F6 0%, #2563EB 100%)"),
+                    boxShadow: "0 14px 30px rgba(37, 99, 235, 0.35)"
+                  }}
                   onMouseEnter={(e) => {
                     if (!isMobile) {
                       e.currentTarget.style.background = `linear-gradient(135deg, #2a2a2a 0%, #333333 100%)`
