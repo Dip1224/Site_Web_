@@ -15,7 +15,9 @@ export default function LoginPage() {
     <div 
       className="flex min-h-svh flex-col items-center justify-center p-6 md:p-10 relative overflow-hidden"
       style={{
-        background: colors.mainBackground
+        background: isMobile
+          ? "linear-gradient(180deg, #EBF8FF 0%, #FFFFFF 100%)"
+          : colors.mainBackground,
       }}
     >
       {/* Elementos decorativos de fondo */}

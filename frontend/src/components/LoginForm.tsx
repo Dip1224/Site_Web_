@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useThemeColors } from '../hooks/useThemeColors'
+import { useIsMobile } from '../hooks/use-mobile'
 import { LynxLogo } from './ui/LynxLogo'
 import { cn } from '../lib/utils'
 import { Button } from './ui/button'
@@ -26,6 +27,7 @@ export function LoginForm({
   const { language } = useLanguage()
   const colors = useThemeColors()
   const navigate = useNavigate()
+  const isMobile = useIsMobile()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -56,37 +58,60 @@ export function LoginForm({
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card 
-        className="overflow-hidden p-0 border shadow-2xl"
-        style={{
-          borderColor: colors.cardBorder,
-          backgroundColor: colors.foreground,
-          boxShadow: colors.cardShadow
-        }}
+        className={cn(
+          "overflow-hidden p-0",
+          isMobile ? "border-0 rounded-2xl shadow-2xl bg-white/90" : "border shadow-2xl"
+        )}
+        style={
+          isMobile
+            ? {
+                backgroundColor: "rgba(255,255,255,0.9)",
+                boxShadow:
+                  "6px 6px 20px rgba(15,23,42,0.08), -6px -6px 16px rgba(255,255,255,0.85)",
+              }
+            : {
+                borderColor: colors.cardBorder,
+                backgroundColor: colors.foreground,
+                boxShadow: colors.cardShadow,
+              }
+        }
       >
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form onSubmit={handleSubmit} className="p-8 md:p-10">
+          <form onSubmit={handleSubmit} className={cn(isMobile ? "p-12" : "p-8 md:p-10")}> 
             <FieldGroup>
               {/* Logo y Header */}
               <div className="flex flex-col items-center gap-4 text-center mb-8">
                 <div 
                   className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg"
-                  style={{
-                    background: `linear-gradient(135deg, #1b1b1b 0%, #262626 100%)`,
-                    boxShadow: `0 10px 15px -3px rgba(0,0,0,0.5)`
-                  }}
+                  style={
+                    isMobile
+                      ? {
+                          background:
+                            "linear-gradient(145deg, #F6FBFF 0%, #FFFFFF 100%)",
+                          boxShadow:
+                            "6px 6px 12px rgba(15,23,42,0.06), -6px -6px 12px rgba(255,255,255,0.9)",
+                        }
+                      : {
+                          background: `linear-gradient(135deg, #1b1b1b 0%, #262626 100%)`,
+                          boxShadow: `0 10px 15px -3px rgba(0,0,0,0.5)`
+                        }
+                  }
                 >
                   <LynxLogo size={32} />
                 </div>
                 <div>
                   <h1 
-                    className="text-3xl font-bold mb-2"
-                    style={{ color: colors.textPrimary }}
+                    className={cn(
+                      "mb-2 font-semibold",
+                      isMobile ? "text-[32px] leading-tight text-slate-800" : "text-3xl"
+                    )}
+                    style={!isMobile ? { color: colors.textPrimary } : undefined}
                   >
                     {language === 'es' ? 'Bienvenido de vuelta' : 'Welcome back'}
                   </h1>
                   <p 
-                    className="text-lg"
-                    style={{ color: colors.textSecondary }}
+                    className={cn(isMobile ? "text-sm text-slate-500" : "text-lg")}
+                    style={!isMobile ? { color: colors.textSecondary } : undefined}
                   >
                     {language === 'es' 
                       ? 'Accede a tu cuenta de WorkEz' 
@@ -112,12 +137,19 @@ export function LoginForm({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="mt-1 transition-all duration-300"
-                  style={{
-                    backgroundColor: colors.background,
-                    borderColor: colors.border,
-                    color: colors.textPrimary
-                  }}
+                  className={cn(
+                    "mt-1 transition-all duration-300",
+                    isMobile ? "bg-white/60 backdrop-blur-sm border-0 border-b-2 border-slate-300 rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none focus:border-sky-500 placeholder:text-slate-400" : ""
+                  )}
+                  style={
+                    isMobile
+                      ? undefined
+                      : {
+                          backgroundColor: colors.background,
+                          borderColor: colors.border,
+                          color: colors.textPrimary,
+                        }
+                  }
                 />
               </Field>
 
@@ -152,12 +184,19 @@ export function LoginForm({
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required 
-                  className="mt-1 transition-all duration-300"
-                  style={{
-                    backgroundColor: colors.background,
-                    borderColor: colors.border,
-                    color: colors.textPrimary
-                  }}
+                  className={cn(
+                    "mt-1 transition-all duration-300",
+                    isMobile ? "bg-white/60 backdrop-blur-sm border-0 border-b-2 border-slate-300 rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none focus:border-sky-500 placeholder:text-slate-400" : ""
+                  )}
+                  style={
+                    isMobile
+                      ? undefined
+                      : {
+                          backgroundColor: colors.background,
+                          borderColor: colors.border,
+                          color: colors.textPrimary,
+                        }
+                  }
                 />
               </Field>
 
@@ -165,19 +204,27 @@ export function LoginForm({
               <Field>
                 <Button 
                   type="submit" 
-                  className="w-full text-white font-semibold py-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg" 
+                  className={cn(
+                    "w-full font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg",
+                    isMobile ? "text-white hover:-translate-y-0.5" : "text-white hover:scale-105"
+                  )}
                   disabled={isLoading}
-                  style={{
-                    background: `linear-gradient(135deg, #1f1f1f 0%, #2a2a2a 100%)`,
-                    boxShadow: `0 10px 15px -3px rgba(0,0,0,0.5)`
-                  }}
+                  style={
+                    isMobile
+                      ? { background: "linear-gradient(180deg, #3B82F6 0%, #2563EB 100%)", boxShadow: "0 14px 30px rgba(37, 99, 235, 0.35)" }
+                      : { background: `linear-gradient(135deg, #1f1f1f 0%, #2a2a2a 100%)`, boxShadow: `0 10px 15px -3px rgba(0,0,0,0.5)` }
+                  }
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = `linear-gradient(135deg, #2a2a2a 0%, #333333 100%)`
-                    e.currentTarget.style.boxShadow = `0 15px 20px -3px rgba(0,0,0,0.6)`
+                    if (!isMobile) {
+                      e.currentTarget.style.background = `linear-gradient(135deg, #2a2a2a 0%, #333333 100%)`
+                      e.currentTarget.style.boxShadow = `0 15px 20px -3px rgba(0,0,0,0.6)`
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = `linear-gradient(135deg, #1f1f1f 0%, #2a2a2a 100%)`
-                    e.currentTarget.style.boxShadow = `0 10px 15px -3px rgba(0,0,0,0.5)`
+                    if (!isMobile) {
+                      e.currentTarget.style.background = `linear-gradient(135deg, #1f1f1f 0%, #2a2a2a 100%)`
+                      e.currentTarget.style.boxShadow = `0 10px 15px -3px rgba(0,0,0,0.5)`
+                    }
                   }}
                 >
                   {isLoading 
