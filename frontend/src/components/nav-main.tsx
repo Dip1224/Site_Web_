@@ -1,8 +1,6 @@
 "use client"
 
-import { IconMail, type Icon } from "@tabler/icons-react"
-
-import { Button } from '@/components/ui/button'
+import { type Icon } from "@tabler/icons-react"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -48,18 +46,6 @@ export function NavMain({
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
-            <Button size="sm" className="h-8 px-3" variant="outline">
-              +
-              <span className="ml-2">Creación rápida</span>
-            </Button>
-            <Button size="icon" className="size-8 group-data-[collapsible=icon]:opacity-0" variant="outline">
-              <IconMail />
-              <span className="sr-only">Inbox</span>
-            </Button>
-          </SidebarMenuItem>
-        </SidebarMenu>
         <SidebarMenu>
           {items.map((item) => {
             const active = isItemActive(item.url)

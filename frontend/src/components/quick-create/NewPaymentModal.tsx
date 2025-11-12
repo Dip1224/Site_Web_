@@ -24,7 +24,19 @@ export function NewPaymentModal({ open, onOpenChange, onCreated }: { open: boole
   const [selected, setSelected] = useState<string[]>([])
 
   useEffect(() => { (async()=>{ const { data } = await listCustomers(); setCustomers(data||[]) })() }, [])
-  useEffect(() => { (async()=>{ const { data } = await listTeamMembers(); const list=(data||[]) as any[]; setMembers(list); setSelected(list.map(m=>m.id)) })() }, [])
+  useEffect(() => {
+    (async () => {
+      const { data } = await listTeamMembers();
+      const list = (data || []) as any[];
+      setMembers(list);
+      setSelected([]); // no seleccionar por defecto
+    })();
+  }, []);
+
+  useEffect(() => {
+    // Mantener solo ids válidos si cambian los miembros
+    setSelected((prev) => prev.filter((id) => members.some((m) => m.id === id)));
+  }, [members])
   useEffect(() => {
     if (!customerId) return; (async()=>{ const { data } = await listSubscriptionsByCustomer(customerId); setSubs(data||[]); setSubId(data?.[0]?.id||'') })()
   }, [customerId])
@@ -67,11 +79,17 @@ export function NewPaymentModal({ open, onOpenChange, onCreated }: { open: boole
     const cents = Math.round((parseFloat(amountBs || '0') || 0) * 100)
     if (!customerId) { toast.error('Selecciona cliente'); return }
     if (cents <= 0) { toast.error('Monto inválido'); return }
+    if (!selected.length) { toast.error('Selecciona al menos un socio'); return }
     setSaving(true)
     try {
       await createPayment({ customer_id: customerId, subscription_id: subId || undefined, amount_cents: cents, note })
-      try { await registerSaleWithSplit({ customer_id: customerId, amount_cents: cents, note, member_ids: selected }) } catch {}
-      toast.success(`Venta registrada: ${formatBs(cents)}`)
+      try {
+        await registerSaleWithSplit({ customer_id: customerId, amount_cents: cents, note, member_ids: selected })
+        toast.success(`Venta registrada y repartida: ${formatBs(cents)} entre ${selected.length} socio(s).`)
+      } catch (splitErr: any) {
+        console.error('registerSaleWithSplit error', splitErr)
+        toast.error('El pago se guardó pero no se pudo repartir entre los socios. Revisa la sección de Ganancias.')
+      }
       onCreated?.(); onOpenChange(false)
       setAmountBs(''); setNote('')
     } catch (e:any) { toast.error(e?.message || 'Error al registrar venta') } finally { setSaving(false) }
@@ -110,7 +128,14 @@ export function NewPaymentModal({ open, onOpenChange, onCreated }: { open: boole
           <div>
             <div className="flex items-center justify-between">
               <Label>Acreditar a</Label>
-              <button type="button" className="text-xs underline hover:opacity-80" onClick={() => setSelected(members.map(m=>m.id))}>Seleccionar todos</button>
+              <button
+                type="button"
+                className="text-xs underline hover:opacity-80 disabled:opacity-40"
+                onClick={() => setSelected(members.map(m => m.id))}
+                disabled={!members.length}
+              >
+                Seleccionar todos
+              </button>
             </div>
             <div className="mt-2 grid grid-cols-2 gap-2">
               {members.map(m => (

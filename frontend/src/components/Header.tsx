@@ -7,8 +7,10 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { useAuth } from '../contexts/AuthContext'
 import { LynxLogo } from './ui/LynxLogo'
 import { AnimatedText } from './AnimatedText'
-import { getActiveSection } from '../utils/scrollUtils'
+import { getActiveSection, smoothScrollTo } from '../utils/scrollUtils'
 import { useThemeColors } from '../hooks/useThemeColors'
+
+type SectionId = 'inicio' | 'servicios' | 'nosotros' | 'faq' | 'contacto'
 
 export const Header: React.FC = () => {
   const { isDark } = useTheme()
@@ -22,8 +24,36 @@ export const Header: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [showLanguageMenu, setShowLanguageMenu] = useState(false)
   const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null)
-  const [activeSection, setActiveSection] = useState('inicio')
+  const [activeSection, setActiveSection] = useState<SectionId>('inicio')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  const scrollToSection = (sectionId: SectionId) => {
+    if (typeof window === 'undefined') return false
+
+    if (sectionId === 'inicio') {
+      const scrollElement = document.scrollingElement || document.documentElement || document.body
+      scrollElement.scrollTo({ top: 0, behavior: 'smooth' })
+      return true
+    }
+
+    return smoothScrollTo(sectionId, 120)
+  }
+
+  const handleMobileNavClick = (sectionId: SectionId) => {
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = ''
+    }
+    setIsMobileMenuOpen(false)
+
+    requestAnimationFrame(() => {
+      const scrolled = scrollToSection(sectionId)
+      if (!scrolled && typeof window !== 'undefined') {
+        window.location.hash = sectionId
+      } else if (typeof window !== 'undefined') {
+        window.history.replaceState(null, '', `#${sectionId}`)
+      }
+    })
+  }
 
   // Funciones para manejar el hover con delay
   const handleLanguageMenuEnter = () => {
@@ -604,7 +634,10 @@ export const Header: React.FC = () => {
               <a
                 href="#inicio"
                 className="block w-full px-4 py-3 rounded-xl font-semibold bg-black/5 dark:bg-white/10"
-                onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); setIsMobileMenuOpen(false) }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleMobileNavClick('inicio')
+                }}
               >Inicio</a>
             </li>
             <li>
@@ -612,10 +645,8 @@ export const Header: React.FC = () => {
                 href="#servicios"
                 className="block w-full px-4 py-3 rounded-xl font-semibold hover:bg-black/5 dark:hover:bg-white/10"
                 onClick={(e) => {
-                  e.preventDefault();
-                  const el = document.getElementById('servicios');
-                  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.scrollBy({ top: -120, left: 0, behavior: 'smooth' }); }
-                  setIsMobileMenuOpen(false)
+                  e.preventDefault()
+                  handleMobileNavClick('servicios')
                 }}
               >Servicios</a>
             </li>
@@ -624,10 +655,8 @@ export const Header: React.FC = () => {
                 href="#nosotros"
                 className="block w-full px-4 py-3 rounded-xl font-semibold hover:bg-black/5 dark:hover:bg-white/10"
                 onClick={(e) => {
-                  e.preventDefault();
-                  const el = document.getElementById('nosotros');
-                  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.scrollBy({ top: -120, left: 0, behavior: 'smooth' }); }
-                  setIsMobileMenuOpen(false)
+                  e.preventDefault()
+                  handleMobileNavClick('nosotros')
                 }}
               >Nosotros</a>
             </li>
@@ -636,10 +665,8 @@ export const Header: React.FC = () => {
                 href="#faq"
                 className="block w-full px-4 py-3 rounded-xl font-semibold hover:bg-black/5 dark:hover:bg-white/10"
                 onClick={(e) => {
-                  e.preventDefault();
-                  const el = document.getElementById('faq');
-                  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.scrollBy({ top: -120, left: 0, behavior: 'smooth' }); }
-                  setIsMobileMenuOpen(false)
+                  e.preventDefault()
+                  handleMobileNavClick('faq')
                 }}
               >FAQ</a>
             </li>
@@ -648,10 +675,8 @@ export const Header: React.FC = () => {
                 href="#contacto"
                 className="block w-full px-4 py-3 rounded-xl font-semibold hover:bg-black/5 dark:hover:bg-white/10"
                 onClick={(e) => {
-                  e.preventDefault();
-                  const el = document.getElementById('contacto');
-                  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); window.scrollBy({ top: -120, left: 0, behavior: 'smooth' }); }
-                  setIsMobileMenuOpen(false)
+                  e.preventDefault()
+                  handleMobileNavClick('contacto')
                 }}
               >Contacto</a>
             </li>

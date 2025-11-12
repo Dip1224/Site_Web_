@@ -1,6 +1,7 @@
 import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
 import { useEffect, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Card,
   CardAction,
@@ -12,6 +13,7 @@ import {
 
 export function SectionCards() {
   const [cards, setCards] = useState<{ revenue: number; newCustomers: number; activeAccounts: number; growthRate: number } | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     ;(async () => {
@@ -27,7 +29,15 @@ export function SectionCards() {
           })
         }
       } catch (e) {
-        console.warn('SectionCards using fallback numbers')
+        console.warn('SectionCards: failed to load metrics, defaulting to zeros')
+        setCards({
+          revenue: 0,
+          newCustomers: 0,
+          activeAccounts: 0,
+          growthRate: 0,
+        })
+      } finally {
+        setIsLoading(false)
       }
     })()
   }, [])
@@ -38,13 +48,24 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Total Revenue</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {cards ? `$${cards.revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '$1,250.00'}
+            {isLoading ? (
+              <Skeleton className="h-8 w-24 rounded-md" />
+            ) : (
+              `$${(cards?.revenue || 0).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}`
+            )}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              {cards ? `${cards.growthRate > 0 ? '+' : ''}${cards.growthRate.toFixed(1)}%` : '+12.5%'}
-            </Badge>
+            {isLoading ? (
+              <Skeleton className="h-6 w-16 rounded-full" />
+            ) : (
+              <Badge variant="outline">
+                <IconTrendingUp />
+                {`${(cards?.growthRate || 0) > 0 ? '+' : ''}${(cards?.growthRate || 0).toFixed(1)}%`}
+              </Badge>
+            )}
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
@@ -60,7 +81,11 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>New Customers</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {cards ? cards.newCustomers.toLocaleString() : '1,234'}
+            {isLoading ? (
+              <Skeleton className="h-8 w-20 rounded-md" />
+            ) : (
+              (cards?.newCustomers || 0).toLocaleString()
+            )}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -82,7 +107,11 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Active Accounts</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {cards ? cards.activeAccounts.toLocaleString() : '45,678'}
+            {isLoading ? (
+              <Skeleton className="h-8 w-24 rounded-md" />
+            ) : (
+              (cards?.activeAccounts || 0).toLocaleString()
+            )}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -102,13 +131,21 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Growth Rate</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {cards ? `${cards.growthRate.toFixed(1)}%` : '4.5%'}
+            {isLoading ? (
+              <Skeleton className="h-8 w-16 rounded-md" />
+            ) : (
+              `${(cards?.growthRate || 0).toFixed(1)}%`
+            )}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              {cards ? `${cards.growthRate.toFixed(1)}%` : '+4.5%'}
-            </Badge>
+            {isLoading ? (
+              <Skeleton className="h-6 w-16 rounded-full" />
+            ) : (
+              <Badge variant="outline">
+                <IconTrendingUp />
+                {`${(cards?.growthRate || 0).toFixed(1)}%`}
+              </Badge>
+            )}
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">

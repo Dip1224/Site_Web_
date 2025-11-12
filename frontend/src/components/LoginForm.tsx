@@ -29,6 +29,15 @@ export function LoginForm({
   const colors = useThemeColors()
   const navigate = useNavigate()
   const isMobile = useIsMobile()
+  const mobilePalette = {
+    label: '#101828',
+    muted: '#475467',
+    subtle: '#94a3b8',
+    border: '#cbd5f5',
+    accent: '#1d4ed8',
+    inputBg: 'rgba(255,255,255,0.9)',
+    chipBg: 'rgba(239,246,255,0.95)',
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -127,7 +136,7 @@ export function LoginForm({
                 <FieldLabel 
                   htmlFor="email" 
                   className="text-sm font-medium"
-                  style={{ color: colors.textPrimary }}
+                  style={{ color: isMobile ? mobilePalette.label : colors.textPrimary }}
                 >
                   {language === 'es' ? 'Correo electrónico' : 'Email'}
                 </FieldLabel>
@@ -144,7 +153,11 @@ export function LoginForm({
                   )}
                   style={
                     isMobile
-                      ? undefined
+                      ? {
+                          backgroundColor: mobilePalette.inputBg,
+                          borderBottomColor: mobilePalette.border,
+                          color: mobilePalette.label,
+                        }
                       : {
                           backgroundColor: colors.background,
                           borderColor: colors.border,
@@ -160,14 +173,14 @@ export function LoginForm({
                   <FieldLabel 
                     htmlFor="password"
                     className="text-sm font-medium"
-                    style={{ color: colors.textPrimary }}
+                    style={{ color: isMobile ? mobilePalette.label : colors.textPrimary }}
                   >
                     {language === 'es' ? 'Contraseña' : 'Password'}
                   </FieldLabel>
                   <a
                     href="#"
                     className="text-sm underline-offset-2 hover:underline transition-colors duration-300"
-                    style={{ color: colors.textSecondary }}
+                    style={{ color: isMobile ? mobilePalette.accent : colors.textSecondary }}
                     onClick={(e) => {
                       e.preventDefault()
                       alert(language === 'es' 
@@ -192,7 +205,11 @@ export function LoginForm({
                     )}
                     style={
                       isMobile
-                        ? undefined
+                        ? {
+                            backgroundColor: mobilePalette.inputBg,
+                            borderBottomColor: mobilePalette.border,
+                            color: mobilePalette.label,
+                          }
                         : {
                             backgroundColor: colors.background,
                             borderColor: colors.border,
@@ -252,13 +269,13 @@ export function LoginForm({
 
               {/* Link de registro */}
               <FieldDescription className="text-center mt-6">
-                <span style={{ color: colors.textSecondary }}>
+                <span style={{ color: isMobile ? mobilePalette.muted : colors.textSecondary }}>
                   {language === 'es' ? '¿No tienes una cuenta?' : "Don't have an account?"}{' '}
                 </span>
                 <a 
                   href="#" 
                   className="underline font-medium transition-colors duration-300"
-                  style={{ color: colors.textSecondary }}
+                  style={{ color: isMobile ? mobilePalette.accent : colors.textSecondary }}
                   onClick={(e) => {
                     e.preventDefault()
                     alert(language === 'es' ? 'Registro próximamente...' : 'Sign up coming soon...')
@@ -312,13 +329,24 @@ export function LoginForm({
       </Card>
 
       {/* Footer */}
-      <FieldDescription className="px-6 text-center text-xs" style={{ color: colors.textTertiary }}>
+      <FieldDescription
+        className="px-6 text-center text-xs"
+        style={{ color: isMobile ? mobilePalette.subtle : colors.textTertiary }}
+      >
         {language === 'es' ? 'Al continuar, aceptas nuestros' : 'By clicking continue, you agree to our'}{' '}
-        <a href="#" className="underline" style={{ color: colors.textSecondary }}>
+        <a
+          href="#"
+          className="underline"
+          style={{ color: isMobile ? mobilePalette.accent : colors.textSecondary }}
+        >
           {language === 'es' ? 'Términos de Servicio' : 'Terms of Service'}
         </a>{' '}
         {language === 'es' ? 'y' : 'and'}{' '}
-        <a href="#" className="underline" style={{ color: colors.textSecondary }}>
+        <a
+          href="#"
+          className="underline"
+          style={{ color: isMobile ? mobilePalette.accent : colors.textSecondary }}
+        >
           {language === 'es' ? 'Política de Privacidad' : 'Privacy Policy'}
         </a>.
       </FieldDescription>

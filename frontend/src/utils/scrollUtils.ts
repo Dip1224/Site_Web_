@@ -1,35 +1,42 @@
 // Utilidades para navegación suave
-export const smoothScrollTo = (elementId: string, offset: number = 120) => {
+export const smoothScrollTo = (elementId: string, offset: number = 120): boolean => {
   try {
-    const element = document.getElementById(elementId.replace('#', ''))
+    const normalizedId = elementId.replace('#', '')
+    const element = document.getElementById(normalizedId)
+    const scrollElement = (document.scrollingElement || document.documentElement || document.body) as HTMLElement | null
     
-    if (element) {
-      const elementPosition = element.offsetTop - offset
+    if (element && scrollElement) {
+      const currentPosition = typeof scrollElement.scrollTop === 'number' ? scrollElement.scrollTop : window.scrollY
+      const elementPosition = element.getBoundingClientRect().top + currentPosition - offset
       
-      console.log(`Scrolling to: ${elementId}`)
+      console.log(`Scrolling to: ${normalizedId}`)
       console.log(`Element top: ${element.offsetTop}, offset: ${offset}, final position: ${elementPosition}`)
       
-      window.scrollTo({
+      scrollElement.scrollTo({
         top: elementPosition,
         behavior: 'smooth'
       })
       
       // Verificar que el scroll se complete
       setTimeout(() => {
-        console.log(`Scroll completed. Current position: ${window.scrollY}, target was: ${elementPosition}`)
-      }, 1000)
-      
-    } else {
-      console.error(`Element not found: ${elementId}`)
-      // Listar elementos disponibles para debug
-      const allSections = ['inicio', 'servicios', 'nosotros', 'portfolio', 'contacto']
-      console.log('Available sections:', allSections.map(id => ({
-        id,
-        exists: !!document.getElementById(id)
-      })))
+        const current = scrollElement.scrollTop || window.scrollY
+        console.log(`Scroll completed. Current position: ${current}, target was: ${elementPosition}`)
+      }, 800)
+
+      return true
     }
+
+    console.error(`Element not found: ${normalizedId}`)
+    // Listar elementos disponibles para debug
+    const allSections = ['inicio', 'servicios', 'nosotros', 'faq', 'contacto']
+    console.log('Available sections:', allSections.map(id => ({
+      id,
+      exists: !!document.getElementById(id)
+    })))
+    return false
   } catch (error) {
     console.error('Error during scroll:', error)
+    return false
   }
 }
 

@@ -482,6 +482,9 @@ export async function listTeamMembers() {
   return { data: current || [], error: null }
 }
 
+const uniqueMemberIds = (ids?: string[]) =>
+  Array.from(new Set((ids || []).filter(Boolean)))
+
 export async function registerSaleWithSplit(payload: {
   customer_id: string
   amount_cents: number
@@ -489,7 +492,21 @@ export async function registerSaleWithSplit(payload: {
   member_ids: string[]
 }) {
   await ensureSession()
-  if (!payload.member_ids?.length) return
+  const memberIds = uniqueMemberIds(payload.member_ids)
+  const hasCustomMembers = memberIds.length > 0
+
+  if (hasCustomMembers) {
+    const { data, error } = await supabase.rpc('register_sale_manual_split', {
+      p_customer_id: payload.customer_id,
+      p_amount_cents: payload.amount_cents,
+      p_note: payload.note ?? null,
+      p_member_ids: memberIds,
+    })
+    if (error || !data) {
+      throw error || new Error('No se pudo repartir la venta')
+    }
+    return data as string
+  }
 
   // Find product for the customer
   const { data: cust, error: custErr } = await supabase
@@ -508,6 +525,7 @@ export async function registerSaleWithSplit(payload: {
       customer_id: payload.customer_id,
       product_id: productId,
       amount_cents: payload.amount_cents,
+      manual_split: true,
       status: 'completed',
       note: payload.note ?? null,
       sold_at: new Date().toISOString(),
@@ -517,11 +535,19 @@ export async function registerSaleWithSplit(payload: {
   if (saleErr) throw saleErr
 
   const saleId = (sale as any)?.id as string
-  const n = Math.max(1, payload.member_ids.length)
+
+  if (!hasCustomMembers) {
+    return saleId
+  }
+
+  const { error: delErr } = await supabase.from('earnings').delete().eq('sale_id', saleId)
+  if (delErr) throw delErr
+
+  const n = memberIds.length
   const base = Math.floor(payload.amount_cents / n)
   const remainder = payload.amount_cents - base * n
 
-  const rows = payload.member_ids.map((mid, idx) => ({
+  const rows = memberIds.map((mid, idx) => ({
     member_id: mid,
     sale_id: saleId,
     amount_cents: base + (idx === 0 ? remainder : 0),
@@ -531,4 +557,83 @@ export async function registerSaleWithSplit(payload: {
   if (earnErr) throw earnErr
 
   return saleId
+}
+
+export async function updateSaleSplit(payload: {
+  sale_id: string
+  amount_cents: number
+  note?: string
+  member_ids: string[]
+}) {
+  await ensureSession()
+  const memberIds = uniqueMemberIds(payload.member_ids)
+
+  const { error: saleErr } = await supabase
+    .from('sales')
+    .update({
+      amount_cents: payload.amount_cents,
+      manual_split: true,
+      note: payload.note ?? null,
+    })
+    .eq('id', payload.sale_id)
+  if (saleErr) throw saleErr
+
+  const { error: delErr } = await supabase.from('earnings').delete().eq('sale_id', payload.sale_id)
+  if (delErr) throw delErr
+
+  if (!memberIds.length) return
+
+  const n = memberIds.length
+  const base = Math.floor(payload.amount_cents / n)
+  const remainder = payload.amount_cents - base * n
+
+  const rows = memberIds.map((mid, idx) => ({
+    member_id: mid,
+    sale_id: payload.sale_id,
+    amount_cents: base + (idx === 0 ? remainder : 0),
+  }))
+
+  const { error: earnErr } = await supabase.from('earnings').insert(rows)
+  if (earnErr) throw earnErr
+}
+
+export async function fetchSaleDetails(saleId: string) {
+  await ensureSession()
+  const { data: sale, error: saleErr } = await supabase
+    .from('sales')
+    .select('id, customer_id, amount_cents, note, sold_at')
+    .eq('id', saleId)
+    .single()
+  if (saleErr) throw saleErr
+
+  const { data: earnings, error: earnErr } = await supabase
+    .from('earnings')
+    .select('member_id')
+    .eq('sale_id', saleId)
+  if (earnErr) throw earnErr
+
+  return {
+    sale,
+    member_ids: (earnings || []).map((row: any) => row.member_id),
+  }
+}
+
+export async function deletePaymentCascade(paymentId: string, saleId?: string | null) {
+  await ensureSession()
+  if (saleId) {
+    const { error: saleErr } = await supabase.from('sales').delete().eq('id', saleId)
+    if (saleErr) throw saleErr
+  }
+  const { error } = await supabase.from('payments').delete().eq('id', paymentId)
+  if (error) throw error
+}
+
+export async function updatePaymentRecord(paymentId: string, updates: { amount_cents?: number; status?: string }) {
+  await ensureSession()
+  const payload: Record<string, any> = {}
+  if (typeof updates.amount_cents === 'number') payload.amount_cents = updates.amount_cents
+  if (updates.status) payload.status = updates.status
+  if (!Object.keys(payload).length) return
+  const { error } = await supabase.from('payments').update(payload).eq('id', paymentId)
+  if (error) throw error
 }
