@@ -11,6 +11,9 @@ import { getActiveSection, smoothScrollTo } from '../utils/scrollUtils'
 import { useThemeColors } from '../hooks/useThemeColors'
 
 type SectionId = 'inicio' | 'servicios' | 'nosotros' | 'faq' | 'contacto'
+const SECTION_IDS: SectionId[] = ['inicio', 'servicios', 'nosotros', 'faq', 'contacto']
+const isSectionId = (value: string | null | undefined): value is SectionId =>
+  typeof value === 'string' && SECTION_IDS.includes(value as SectionId)
 
 export const Header: React.FC = () => {
   const { isDark } = useTheme()
@@ -113,15 +116,11 @@ export const Header: React.FC = () => {
         setLastScrollY(currentScrollY)
         
         // Detectar sección activa con throttling - solo las secciones que tienen botones de navegación
-        const sections = ['inicio', 'servicios', 'nosotros', 'faq', 'contacto']
-        const active = getActiveSection(sections)
+        const active = getActiveSection(SECTION_IDS)
         
-        // Sin mapeo - usar directamente la sección detectada
-        const navigationActive = active
-        
-        if (navigationActive !== activeSection) {
-          console.log('🚀 Header: Section changed from', activeSection, 'to', navigationActive, 'at scroll position', Math.round(currentScrollY))
-          setActiveSection(navigationActive)
+        if (isSectionId(active) && active !== activeSection) {
+          console.log('🚀 Header: Section changed from', activeSection, 'to', active, 'at scroll position', Math.round(currentScrollY))
+          setActiveSection(active)
         }
       }
     }
